@@ -24,6 +24,7 @@ As an avid reader; I'd like to keep track of what books I am reading and have re
 - Create table to track books with pertaining info off wireframe (author last and first, book name, genre, pages, rating, added by whom).
 - Create form to allow additions to table of new books.
   - javascript will add entries to table.
+- Data persists across refreshes.
 - Add section to display brief reviews as well as book covers.
 - Style final result (cozy, clean, smooth, professional).
 
@@ -45,6 +46,9 @@ As an avid reader; I'd like to keep track of what books I am reading and have re
   - Voting will display selection of 2 (either or; either retain winner or just randomly shuffle).
   - Display results in chart form (bar or other).
   - maybe include entry from user input review in static review section; not concrete.
+- Additional data persist.
+
+### Changelog
 
 - 03.24.26
   - created index.html, styles.css, app.js, and added .eslintrc.json and reset.css. (A, B, C, D)
@@ -54,3 +58,4 @@ As an avid reader; I'd like to keep track of what books I am reading and have re
   - added wireframe img. (B)
   - ![Wireframe depicting banner, table, form, reviews](img/201_project_wireframe.png "wireframe"). (C)
   - added user story, feature tasks, acceptance test, and stretch goals. (C)
+  - added `requirements.md`.
