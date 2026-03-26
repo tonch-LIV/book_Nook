@@ -44,6 +44,11 @@
 - Form Entries show up on table.
 - Data is persistent on refresh / navigating away.
 
-### Data Flow
+### Data Flow / Domain Modeling
 
-As soon as the user begins to load the app / site, the table will load with static entries with corresponding reviews, as will the design elements, and the form. Once users complete a form entry, the data will be added to the table and the book review section. (Optionally) If voting were to be implemented, the rounds would begin at the press of a button and once voting is completed, a chart would dsiplay with the results.
+1. As soon as the user begins to load the app / site,
+2. The table, form and review sections will load with static entries (as will the design elements).
+3. Once users complete a form entry, the data will be added to the table and the book review section.
+4. (Optionally) If voting were to be implemented, the rounds would begin at the press of a button.
+5. Once voting is completed, a chart would dsiplay with the results.
+![Domain model diagram](img/book_Nook_Data.Flow_Domain.Model.png "diagram")

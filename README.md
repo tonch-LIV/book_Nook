@@ -59,4 +59,6 @@ As an avid reader; I'd like to keep track of what books I am reading and have re
   - ![Wireframe depicting banner, table, form, reviews](img/201_project_wireframe.png "wireframe"). (C)
   - added user story, feature tasks, acceptance test, and stretch goals. (C)
   - added `requirements.md`.
+- 03.26.26
+  - created and added domain model diagram to requirements.md rather than readme.md to go with restructured descriptive data flow text. (A)
   
