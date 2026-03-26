@@ -3,7 +3,7 @@
 ## Vision
 
 1. What is the vision of this product?
-    - The goal is to create a tool for users to track books read and share with others their opinions on the said book, while also receiving recommendations from others as well.
+    - The goal is to create a tool for users to track books read and share with others, their opinions on said books, while also receiving recommendations from others as well.
 
 2. What pain point does this project solve?
     - This solves the loss of accountability and tracking where one would ordinarily just picks up a book, read it, and never thinks about it again. Through this tool, users will allow themselves a moment of recollection to reflect on what they just read and share their thoughts with others.
@@ -16,7 +16,7 @@
 - This product will have,
   - a table to display list of books.
   - a form to add new entries.
-  - a 'gallery' depicting reviews
+  - a 'rotating gallery' displaying reviews.
   - appropriate styling.
     - (optional)
       - a voting selection of books.
@@ -25,9 +25,9 @@
   - let you read the book on site.
   - tell you where to source the book.
   - how much the book cost.
-  - shy from spoilers, per the reviews.
+  - shy from spoilers, as the reviews might include details.
 
-### MVP
+### MVP (Minimum Viable Product)
 
 - Table
 - Form
@@ -36,13 +36,19 @@
 
 ### Stretch
 
-- Voting
+- Voting (plus button)
 - Chart
 
 ## Functional Requirements
 
+- Static elements are displayed accordingly per wireframe (subject to change as design evolves).
 - Form Entries show up on table.
+- Reviews display and cycle; 2 or 3 at a time.
 - Data is persistent on refresh / navigating away.
+  - Optional
+    - Button triggers voting selction.
+    - Additional entries added by users are incorporated into voting.
+    - Once voting has ended, chart displays results.
 
 ### Data Flow / Domain Modeling
 
@@ -50,5 +56,5 @@
 2. The table, form and review sections will load with static entries (as will the design elements).
 3. Once users complete a form entry, the data will be added to the table and the book review section.
 4. (Optionally) If voting were to be implemented, the rounds would begin at the press of a button.
-5. Once voting is completed, a chart would dsiplay with the results.
+5. Once voting is completed, a chart would display with the results.
 ![Domain model diagram](img/book_Nook_Data.Flow_Domain.Model.png "diagram")

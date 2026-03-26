@@ -7,10 +7,10 @@ Add Recommendations.
 Share reviews and/or comments.  
 Maybe include voting and chart (big MAYBE).
 
-A = Team Leader Antonio
-B = Team Member Antonio
-C = Team Supervisor Antonio
-D = Consigliere Antonio
+A = Team Leader Antonio  
+B = Team Member Antonio  
+C = Team Supervisor Antonio  
+D = Consigliere Antonio  
 
 ## 201_project
 
@@ -60,5 +60,5 @@ As an avid reader; I'd like to keep track of what books I am reading and have re
   - added user story, feature tasks, acceptance test, and stretch goals. (C)
   - added `requirements.md`.
 - 03.26.26
-  - created and added domain model diagram to requirements.md rather than readme.md to go with restructured descriptive data flow text. (A)
+  - created and added domain model diagram to `requirements.md` rather than `readme.md` to go with restructured descriptive data flow text. (A)
   
