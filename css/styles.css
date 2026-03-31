@@ -19,7 +19,7 @@ th, td {
   padding: 8px;
 }
 
-#reviews-container {
+#reviewsContainer {
   display: flex;
   gap: 20px;
 }
