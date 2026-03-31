@@ -12,27 +12,27 @@ B = Team Member Antonio
 C = Team Supervisor Antonio  
 D = Consigliere Antonio  
 
-## 201_project
+## User Stories
 
-### User Stories
+As an avid reader; I often read more than one book at a time; starting one before finishing the previous. I'd like to keep track of what books I am reading and have read, so that I may keep record, provide a rating and review, as well as let other users share and rate books they've read and let them discover new books.
 
-As an avid reader; I'd like to keep track of what books I am reading and have read so that I may keep record, provide a rating and review, as well as let other users share books they've read and let them rate and vote (possibly, not concrete detail, yet).
+### Feature Tasks
 
-#### Feature Tasks
-
-- Create banner with site title.
+- Create a site layout w/ a banner with a title and bookcase/library design elements.
 - Create table to track books with pertaining info off wireframe (author last and first, book name, genre, pages, rating, added by whom).
 - Create form to allow additions to table of new books.
   - javascript will add entries to table.
 - Data persists across refreshes.
 - Add section to display brief reviews as well as book covers.
-- Style final result (cozy, clean, smooth, professional).
+- Style final result (cozy, clean, smooth, professional) and include a custom font set as well.
 
-#### Acceptance Tests
+- Create a branch for each feature (table, form, reviews, data persistence, style, etc.)
+
+### Acceptance Tests
 
 - Set up basic HTML layout (sections, divs, header/footer)
 - Code table in HTML and ensure displays with static entries.
-- Program form to accept input from user about details.
+- Program form to accept input from user about book details.
   - Ensure user addition through form entries display in table; table cells (rows & columns) will be dynamically added.
 - Section to display 3-4 reviews and book covers.
 - Polish up with styling.
@@ -48,7 +48,7 @@ As an avid reader; I'd like to keep track of what books I am reading and have re
   - maybe include entry from user input review in static review section; not concrete.
 - Additional data persist.
 
-### Changelog
+## Changelog
 
 - 03.24.26
   - created index.html, styles.css, app.js, and added .eslintrc.json and reset.css. (A, B, C, D)
@@ -61,4 +61,5 @@ As an avid reader; I'd like to keep track of what books I am reading and have re
   - added `requirements.md`.
 - 03.26.26
   - created and added domain model diagram to `requirements.md` rather than `readme.md` to go with restructured descriptive data flow text. (A)
-  
+- 03.31.26
+  - polished up readme structure (user story, feature tasks, etc.), index.html to correct css links, and revised .eslintrc.json with correct contents after clarifying with Jason.
