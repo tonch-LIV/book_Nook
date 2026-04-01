@@ -84,3 +84,4 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - fixed bug in `renderReviews()` that was causing `baseBooks` to not load properly and therefore table results not persisting upon refresh. (B)
   - added a few static entries. (B)
   - merged tableForm to main, git pulled.
+  - ![lighthouse accessibility report, 81](img/dayOne_lighthouse.png "score of 81, can improve easily"). (B)
