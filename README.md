@@ -48,7 +48,7 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - Display results in chart form (bar or other).
   - maybe include entry from user input review in static review section; not concrete.
 - Additional data persist.
-- wire delete button to edit/modify entries.
+- wire delete button to edit/modify entries. (D)
 
 ## Changelog
 
@@ -83,3 +83,4 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - ensures newest revies show first inside `renderReviews()`. (B)
   - fixed bug in `renderReviews()` that was causing `baseBooks` to not load properly and therefore table results not persisting upon refresh. (B)
   - added a few static entries. (B)
+  - merged tableForm to main, git pulled.
