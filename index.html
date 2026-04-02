@@ -42,16 +42,34 @@
 
     <!-- FORM SECTION -->
     <section id="formSection">
-      <h2>Add Book</h2>
 
       <form id="bookForm">
-        <input name="author" placeholder="Author (Last, First)" required />
-        <input name="title" placeholder="Book Name" required />
-        <input name="genre" placeholder="Genre" />
-        <input name="pages" type="number" placeholder="Pages" />
-        <input name="rating" type="number" min="1" max="5" />
-        <input name="addedBy" placeholder="Added By" />
-        <textarea name="review" placeholder="Write your review..."></textarea>
+
+        <fieldset>
+          <legend>Add a Book</legend>
+          
+          <label for="author">Author</label>
+          <input id="author" name="author" placeholder="Last, First" required />
+
+          <label for="title">Book Name</label>
+          <input id="title" name="title" required />
+
+          <label for="genre">Genre</label>
+          <input id="genre" name="genre" />
+
+          <label for="pages">Pages</label>
+          <input id="pages" name="pages" type="number" />
+
+          <label for="rating">Rating</label>
+          <input id="rating" name="rating" placeholder="1-5" type="number" min="1" max="5" />
+
+          <label for="addedBy">Added By</label>
+          <input id="addedBy" name="addedBy" />
+
+          <label for="review">Review</label>
+          <textarea id="review" name="review"></textarea>
+        </fieldset>
+        
         <button type="submit">Add Book</button>
       </form>
 

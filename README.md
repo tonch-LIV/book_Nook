@@ -31,24 +31,29 @@ As an avid reader; I often read more than one book at a time; starting one befor
 
 ### Acceptance Tests
 
-- Set up basic HTML layout (sections, divs, header/footer)
+- Set up basic HTML layout (sections, divs, header/footer) (Day 1)
 - Code table in HTML and ensure displays with static entries.
+  - coded in JS*, still ensuring static entries. (Day 1)
 - Program form to accept input from user about book details.
-  - Ensure user addition through form entries display in table; table cells (rows & columns) will be dynamically added.
+  - Ensure user addition through form entries display in table; table cells (rows & columns) will be dynamically added. (Day 1)
 - Section to display 3-4 reviews and book covers.
 - Polish up with styling.
 
 #### Stretch Goals
 
-- Allow users to add images through form submission, to be used in book review section
+- Allow users to add images through form submission, to be used in book review section.
 - Add voting element / section below reviews.
 - Trigger voting through a button.
   - If voting is added, entries from form also added into the voting selection mix.
   - Voting will display selection of 2 (either or; either retain winner or just randomly shuffle).
   - Display results in chart form (bar or other).
-  - maybe include entry from user input review in static review section; not concrete.
-- Additional data persist.
-- wire delete button to edit/modify entries. (D)
+  - maybe include entry from user input review in static review section; not concrete. (Day 1)
+- Additional data persist. (Day 1)
+- wire delete button to edit/modify entries. (D added 03.31.26)
+- Implement tabs within indexhtml to separate table, form, and reviews from voting and chart. (D added 04.02.26, suggested by Jason)
+- Incorporate either card or carousel, maybe both, to reviews section. (D added 04.02.26, suggested by Jason)
+  - Card would be book cover, interacting (hover, maybe click) would open the review (include rating in review).
+  - Carousel would cycle through cards.
 
 ## Changelog
 
@@ -85,3 +90,12 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - added a few static entries. (B)
   - merged tableForm to main, git pulled.
   - ![lighthouse accessibility report, 81](img/dayOne_lighthouse.png "score of 81, can improve easily"). (B)
+
+### Day 2
+
+- 04.02.26
+  - updated readme with additional stretch goals and other info (acceptance test checked off). (C)
+  - fixed `form` to include labels for accessibility considerations (lighthouse report, day one) and include context for 'blank' rating input; added styling to stack them vertically using ` ` through `#bookForm, #bookForm label` css; added elements to a `fieldset`. (A)
+  - light styling to `form` elements to make it more form-like through css grid. (B)
+  - added missing reviews to `baseBooks` plus new entries. (B)
+  

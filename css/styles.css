@@ -38,3 +38,50 @@ th, td {
 .review-card p {
   font-style: italic;
 }
+
+#bookForm { /* outer container */
+  max-width: 600px;
+}
+
+#bookForm label {
+  font-weight: bold;
+  margin-top: 10px;
+  align-self: center;
+}
+
+#bookForm input,
+#bookForm textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#review {
+  grid-column: 1 / -1;
+  min-height: 120px;
+}
+
+label[for="review"] { /* targets review label */
+  grid-column: 1 / -1; /* stretches element from first to last column*/
+}
+
+#bookForm button {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+fieldset { /* inner container */
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+}

@@ -8,16 +8,16 @@ let books = [];
 let reviewIndex = 0;
 
 const baseBooks = [
-  new Book('Allende, Isabel', 'The Wind Knows My Name', 'World History, Current Events, War, Loss', 272, 4, 'I', ''),
-  new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'International, Mystery, Detective, Corruption, Drama', 272, 4, 'I', ''),
-  new Book('Kim, Angie', 'Miracle Creek', 'Mystery, Crime, Legal', 368, 4, 'I', ''),
-  new Book('Bearden, Milton', 'The Black Tulip', 'World History, War, Espionage, History, Comaradirie, Underworld, Parallels, Beaurocracy, Thriller', 336, 4, 'I', ''),
-  new Book('Balson, Ronald H.', 'Once We Were Brothers', 'History, Romance, Corruption. War Crimes, Legal, Investigative, Vengance', 394, 4, 'I', ''),
-  new Book('Bourdain, Anthony', 'Bone in the Throat', 'Crime, Detective, Culinary, Murder, Beaurocracy', 1 , 3, 'I', ''),
-  new Book('Coelho, Paulo', 'The Fifth Mountain', '', 245, 3, 'I', ''),
-  // new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'Detective', 272, 4, 'I', ''),
-
-
+  new Book('Allende, Isabel', 'The Wind Knows My Name', 'Historical Fiction, Drama', 272, 4, 'Antonio', 'A blend of history with personal loss.'),
+  new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'Mystery, Detective, Crime', 272, 4, 'Antonio', 'Slow-burn detective story that strongly portrays atmosphere and environment.'),
+  new Book('Kim, Angie', 'Miracle Creek', 'Mystery, Crime, Legal', 368, 4, 'Antonio', 'Courtroom drama trying to solve a mystery that involves complex characters with layered morals and values.'),
+  new Book('Bearden, Milton', 'The Black Tulip', 'Espionage, Historical Fiction', 336, 4, 'Antonio', 'Rich in detail about real-world espionage and historical events as they are occurring.'),
+  new Book('Balson, Ronald H.', 'Once We Were Brothers', 'Historical Fiction, Legal Drama', 394, 4, 'Antonio', 'A weaving of past and present into a search for truth.'),
+  new Book('Bourdain, Anthony', 'Bone in the Throat', 'Crime, Dark Comedy, Culinary', 304 , 3, 'Antonio', 'Fast-paced and gritty, with a pinch of dark humor, behind the scenes of the restaurant life and family ties.'),
+  new Book('Coelho, Paulo', 'The Fifth Mountain', 'Philosophical Fiction, Spiritual', 245, 3, 'Antonio', 'A narrative focused on resilience and purpose with an emphasis on introspection rather than thought.'),
+  new Book('Kostova, Elizabeth', 'The Historian', '', 642, '', 'Antonio', ''),
+  // new Book('K, J', 'The Historian', '', , , 'Antonio', ''),
+  // new Book('K, J', 'The Historian', '', , , 'Antonio', ''),
 ];
 
 //===================================
