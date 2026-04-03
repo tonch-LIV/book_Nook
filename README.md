@@ -96,7 +96,10 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - fixed `form` to include labels for accessibility considerations (lighthouse report, day one) and include context for 'blank' rating input; added styling to stack them vertically using ` ` through `#bookForm, #bookForm label` css; added elements to a `fieldset`. (A)
   - light styling to `form` elements to make it more form-like through css grid. (B)
   - added missing reviews to `baseBooks` plus new entries. (B)
-  - created `votingChart` branch. (B)
+  - created `votingChart` branch. (A)
   - added some styling to reviews through `review-card` and `review-card:hover`. (B)
   - added place to add img (book cover url) to form and updated constructor `Book`, form submission `form.addEventListener()` to support addition. (B)
   - future proofed `saveToLocalStorage()` (A)
+  - impemented tabs in html and js (for library(table) and for voting) w/ minimal styling. (B)
+  - specified which form entries are required for submission (all minus genre and page count). (B)
+  - 

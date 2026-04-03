@@ -105,3 +105,31 @@ legend {
   border-radius: 8px;
   margin-bottom: 10px;
 } */
+
+#tabs {
+  display: flex;
+  gap: 90px;
+  margin: 20px;
+  justify-content: center;
+}
+
+#tabs button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background: #ddd;
+  border-radius: 6px;
+}
+
+#tabs button.active {
+  background: #333;
+  color: white;
+}
+
+.tab {
+  display: none;
+}
+
+.tab.active {
+  display: block;
+}

@@ -29,8 +29,8 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
   this.author = author;
   this.title = title;
   this.genre = genre;
-  this.pages = pages;
-  this.rating = rating;
+  this.pages = Number(pages); // nUmber species number, not string
+  this.rating = Number(rating);
   this.addedBy = addedBy;
 
   this.review = {
@@ -38,6 +38,8 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
     date: new Date()
   };
   this.image = image || '';
+  this.votes = 0;
+  this.views = 0;
 };
 
 //=========
@@ -161,6 +163,33 @@ form.addEventListener('submit', function (e) {
   form.reset(); // UX bonus
 });
 
+//====================
+// tab functionality |
+//====================
+
+// grabs buttons 'library' and 'voting'
+const tabButtons = document.querySelectorAll('#tabs button');
+
+// loops through buttons and applies behavior after 'click'
+tabButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const target = button.dataset.tab; //tied to button data-tab
+
+    // remove active class from all buttons
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+
+    // add active class to clicked button; highlights
+    button.classList.add('active');
+
+    // hide all tab content
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+
+    // show selected tab only
+    document.getElementById(target).classList.add('active');
+  });
+});
 
 //=====================
 // load on page load  |
