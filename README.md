@@ -102,4 +102,4 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - future proofed `saveToLocalStorage()` (A)
   - impemented tabs in html and js (for library(table) and for voting) w/ minimal styling. (B)
   - specified which form entries are required for submission (all minus genre and page count). (B)
-  - 
+  - added random voting generation as well as rneder voting choices blocks in js. (B)

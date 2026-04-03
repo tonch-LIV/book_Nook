@@ -108,6 +108,70 @@ function renderReviews() {
   }
 };
 
+//==========
+// voting  |
+//=========
+
+// stores currently displayed choices
+let currentPair = [];
+
+function getRandomBooks() {
+  if (books.length < 2) return [];
+
+  // picks random book
+  let index1 = Math.floor(Math.random() * books.length);
+  let index2;
+
+  // loop to keep shuffling if books are the same
+  do {
+    index2 = Math.floor(Math.random() * books.length);
+  } while (index1 === index2);
+
+  return [books[index1], books[index2]];
+};
+
+function renderVoting() {
+  const container = document.getElementById('votingContainer');
+  container.innerHTML = ''; // clear
+
+  // stores function to get 2 random choices in a variable
+  currentPair = getRandomBooks();
+
+  // creates clickable cards during votes
+  currentPair.forEach(book => {
+    const card = document.createElement('div');
+    card.classList.add('review-card');
+
+    card.innerHTML = `
+      ${book.image ? `<img src="${book.image}" alt="${book.title}" />` : ''}
+      <h3>${book.title}</h3>
+      <p>${book.author}</p>
+    `;
+
+    // click = vote
+    card.addEventListener('click', () => {
+      handleVote(book);
+    });
+
+    container.appendChild(card);
+  });
+};
+
+function handleVote(selectedBook) {
+
+  // increments views tally for both; safe syntax to avoid NaN
+  currentPair.forEach(book => {
+    book.views = (book.views || 0) + 1;
+  });
+
+  // increments vote tally for choosen
+  selectedBook.votes = (selectedBook.votes || 0) + 1;
+
+  // data persistance and new round
+  saveToLocalStorage();
+  renderVoting();
+};
+
 //=================================
 // function for data persistence  |
 //================================
@@ -134,9 +198,9 @@ function loadFromLocalStorage() {
   renderReviews();
 };
 
-//============================
-// button listener for form  |
-//===========================
+//=======================
+// form event listener  |
+//======================
 
 const form = document.getElementById('bookForm');
 
@@ -196,6 +260,7 @@ tabButtons.forEach(button => {
 //====================
 
 loadFromLocalStorage();
+renderVoting();
 
 // timer
 setInterval(() => {
