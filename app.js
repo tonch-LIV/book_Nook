@@ -24,7 +24,7 @@ const baseBooks = [
 // constructor for new books added  |
 //==================================
 
-function Book(author, title, genre, pages, rating, addedBy, review) {
+function Book(author, title, genre, pages, rating, addedBy, review, image) {
   this.id = Date.now(); //every book receives unique id; timestamp
   this.author = author;
   this.title = title;
@@ -33,11 +33,11 @@ function Book(author, title, genre, pages, rating, addedBy, review) {
   this.rating = rating;
   this.addedBy = addedBy;
 
-  //  REPLACE simple review with object; timestamp
   this.review = {
     text: review,
     date: new Date()
   };
+  this.image = image || '';
 };
 
 //=========
@@ -95,6 +95,7 @@ function renderReviews() {
       : '';
 
     card.innerHTML = `
+      ${book.image ? `<img src="${book.image}" alt="${book.title}" />` : ''}
       <h3>${book.title}</h3>
       <p class="author">by ${book.author}</p>
       <p>"${book.review?.text || "No review yet"}"</p>
@@ -111,7 +112,7 @@ function renderReviews() {
 
 function saveToLocalStorage() {
   // exclude baseBooks to prevent duplicates
-  const userBooks = books.slice(baseBooks.length);
+  const userBooks = books.filter(book => !baseBooks.includes(book));
   localStorage.setItem('books', JSON.stringify(userBooks));
 };
 
@@ -147,7 +148,8 @@ form.addEventListener('submit', function (e) {
     e.target.pages.value,
     e.target.rating.value,
     e.target.addedBy.value,
-    e.target.review.value //  makes sure textarea exists
+    e.target.review.value,
+    e.target.image.value
   );
 
   books.push(newBook);

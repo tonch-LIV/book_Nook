@@ -1,10 +1,9 @@
 # book_Nook
 
-chart / log and reviews / display
+log and track books + reviews / vote and display chart
 
-Place for author and other users to log and track books read / are currently reading.  
-Add Recommendations.  
-Share reviews and/or comments.  
+Place for users to log and track books read.
+Share reviews and/or find recommendations.  
 Maybe include voting and chart (big MAYBE).
 
 A = Team Leader Antonio  
@@ -14,7 +13,7 @@ D = Consigliere Antonio
 
 ## User Stories
 
-As an avid reader; I often read more than one book at a time; starting one before finishing the previous. I'd like to keep track of what books I am reading and have read, so that I may keep record, provide a rating and review, as well as let other users share and rate books they've read and let them discover new books.
+As an avid reader, I'd like to keep track of what books I've read, so that I may keep record, provide a rating and review, as well as let other users share and rate books they've read and let them discover new books.
 
 ### Feature Tasks
 
@@ -41,7 +40,7 @@ As an avid reader; I often read more than one book at a time; starting one befor
 
 #### Stretch Goals
 
-- Allow users to add images through form submission, to be used in book review section.
+- Allow users to add images(or links) through form submission, to be used in book review section.
 - Add voting element / section below reviews.
 - Trigger voting through a button.
   - If voting is added, entries from form also added into the voting selection mix.
@@ -49,7 +48,6 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - Display results in chart form (bar or other).
   - maybe include entry from user input review in static review section; not concrete. (Day 1)
 - Additional data persist. (Day 1)
-- wire delete button to edit/modify entries. (D added 03.31.26)
 - Implement tabs within indexhtml to separate table, form, and reviews from voting and chart. (D added 04.02.26, suggested by Jason)
 - Incorporate either card or carousel, maybe both, to reviews section. (D added 04.02.26, suggested by Jason)
   - Card would be book cover, interacting (hover, maybe click) would open the review (include rating in review).
@@ -98,4 +96,7 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - fixed `form` to include labels for accessibility considerations (lighthouse report, day one) and include context for 'blank' rating input; added styling to stack them vertically using ` ` through `#bookForm, #bookForm label` css; added elements to a `fieldset`. (A)
   - light styling to `form` elements to make it more form-like through css grid. (B)
   - added missing reviews to `baseBooks` plus new entries. (B)
-  
+  - created `votingChart` branch. (B)
+  - added some styling to reviews through `review-card` and `review-card:hover`. (B)
+  - added place to add img (book cover url) to form and updated constructor `Book`, form submission `form.addEventListener()` to support addition. (B)
+  - future proofed `saveToLocalStorage()` (A)
