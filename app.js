@@ -7,6 +7,9 @@
 let books = [];
 let reviewIndex = 0;
 
+// stores chart and re-renders cleanly/prevents duplicates
+let chartInstance = null;
+
 const baseBooks = [
   new Book('Allende, Isabel', 'The Wind Knows My Name', 'Historical Fiction, Drama', 272, 4, 'Antonio', 'A blend of history with personal loss.'),
   new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'Mystery, Detective, Crime', 272, 4, 'Antonio', 'Slow-burn detective story that strongly portrays atmosphere and environment.'),
@@ -170,6 +173,52 @@ function handleVote(selectedBook) {
   // data persistance and new round
   saveToLocalStorage();
   renderVoting();
+  renderChart();    // live feedback on voting through chart updates
+};
+
+//=========
+// chart  |
+//========
+
+function renderChart() {
+  const ctx = document.getElementById('resultsChart');
+
+  // destroy previous/existing chart, if any
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  // prep data
+  // x-axis, book names, accounts for long titles
+  const labels = books.map(book => book.title);
+  const votes = books.map(book => book.votes || 0);   //y-axis, vote count
+
+  chartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Votes',
+        data: votes
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      }
+    }
+  });
 };
 
 //=================================
@@ -252,6 +301,11 @@ tabButtons.forEach(button => {
 
     // show selected tab only
     document.getElementById(target).classList.add('active');
+
+    // only show chart on relevant tab
+    if (target === 'votingTab') {
+      renderChart();
+    };
   });
 });
 
@@ -261,6 +315,7 @@ tabButtons.forEach(button => {
 
 loadFromLocalStorage();
 renderVoting();
+renderChart();
 
 // timer
 setInterval(() => {
