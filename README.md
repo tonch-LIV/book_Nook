@@ -108,8 +108,15 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - modified `handleVote()` to include `renderChart()`. (B)
   - modified `button.addEventListener()` to only show chart when voting tab is active. (B)
   - added a couple static entries, as well as placeholder template for future entries; need to implement images . (B)
-  - added [bucket list](#if-i-had-more-time--for-future-consideration).
-  -
+  - added [bucket list](#if-i-had-more-time--for-future-consideration). (A)
+  - fixed `loadFromLocalStorage()` > `userBooks` to account for storage as plain objects, back into instances; prevent chart data from being flawed and votes / views count consistency. (B)
+  - x-axis book title 'truncation', names being cutoff, still troubleshooting in `renderChart()` > `labels`. (B)
+  - implemented voting limit through use of global variables; `voteCount`, `maxVotes` and modified `handleVote(selectedBook)` `if` conditional. (B)
+    - was broken, missing increment (`votesCount++`). (A)
+  - modified `renderChart()` to go from simple bar chart for only votes, to a stacked bar/line chart for distinction between votes and times displayed. (B)
+  - modified `renderChart.chartInstance.options.scales()` to implement two axis' to account for both datasets. (A)
+  - added static entry book cover images to `img` folder and linked them through new constructor `new Book()` instances. (A)
+  - 
 
 ## If I Had More Time / For Future Consideration
 

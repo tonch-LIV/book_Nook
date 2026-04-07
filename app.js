@@ -10,17 +10,22 @@ let reviewIndex = 0;
 // stores chart and re-renders cleanly/prevents duplicates
 let chartInstance = null;
 
+// vote count
+
+let voteCount = 0;
+const maxVotes = books.length * 2.5;  // voting varies on length of entries
+
 const baseBooks = [
-  new Book('Allende, Isabel', 'The Wind Knows My Name', 'Historical Fiction, Drama', 272, 4, 'Antonio', 'A blend of history with personal loss.'),
-  new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'Mystery, Detective, Crime, Fiction', 272, 4, 'Antonio', 'Slow-burn detective story that strongly portrays atmosphere and environment.'),
-  new Book('Kim, Angie', 'Miracle Creek', 'Mystery, Crime, Legal', 368, 4, 'Antonio', 'Courtroom drama trying to solve a mystery that involves complex characters with layered morals and values.'),
-  new Book('Bearden, Milton', 'The Black Tulip', 'Espionage, Historical Fiction', 336, 4, 'Antonio', 'Rich in detail about real-world espionage and historical events as they are occurring.'),
-  new Book('Balson, Ronald H.', 'Once We Were Brothers', 'Historical Fiction, Legal Drama, Suspense', 394, 4, 'Antonio', 'A weaving of past and present into a search for truth.'),
-  new Book('Bourdain, Anthony', 'Bone in the Throat', 'Crime, Dark Comedy, Culinary, Fiction', 304 , 3, 'Antonio', 'Fast-paced and gritty, with a pinch of dark humor, behind the scenes of the restaurant life and family ties.'),
-  new Book('Coelho, Paulo', 'The Fifth Mountain', 'Philosophical Fiction, Historical', 245, 3, 'Antonio', 'A narrative focused on resilience and purpose with an emphasis on introspection rather than thought.'),
-  new Book('Diamond, Jared', 'Guns, Germs, and Steel: The Fates of Human Societies', 'World History, Non-Fiction, Science, Anthropoly, Sociology', 498, '', 'Antonio', ''),
-  new Book('Kostova, Elizabeth', 'The Historian', 'Mystery, Historical Fiction, Suspene', 642, '', 'Antonio', ''),
-  new Book('Bolaño, Roberto', 'The Savage Detectives', 'Mystery, Psychological, Suspense, Fiction ', 648, '', 'Antonio', ''),
+  new Book('Allende, Isabel', 'El Viento Conoce Mi Nombre', 'Historical Fiction, Drama', 272, 4, 'Antonio', 'A blend of history with personal loss.', 'img/wind_Allende.jpg'),
+  new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'Mystery, Detective, Crime, Fiction', 272, 4, 'Antonio', 'Slow-burn detective story that strongly portrays atmosphere and environment.', 'img/silence_Garcia.jpg'),
+  new Book('Kim, Angie', 'Miracle Creek', 'Mystery, Crime, Legal', 368, 4, 'Antonio', 'Courtroom drama trying to solve a mystery that involves complex characters with layered morals and values.', 'img/miracle_Kim.jpg'),
+  new Book('Bearden, Milton', 'The Black Tulip', 'Espionage, Historical Fiction', 336, 4, 'Antonio', 'Rich in detail about real-world espionage and historical events as they are occurring.', 'img/tulip_Bearden.jpg'),
+  new Book('Balson, Ronald H.', 'Once We Were Brothers', 'Historical Fiction, Legal Drama, Suspense', 394, 4, 'Antonio', 'A weaving of past and present into a search for truth.', 'img/brothers_Balson.jpg'),
+  new Book('Bourdain, Anthony', 'Bone in the Throat', 'Crime, Dark Comedy, Culinary, Fiction', 304 , 3, 'Antonio', 'Fast-paced and gritty, with a pinch of dark humor, behind the scenes of the restaurant life and family ties.', 'img/throat_Bourdain.jpg'),
+  new Book('Coelho, Paulo', 'The Fifth Mountain', 'Philosophical Fiction, Historical', 245, 3, 'Antonio', 'A narrative focused on resilience and purpose with an emphasis on introspection rather than thought.', 'img/ffthMt_Coelho.jpg'),
+  new Book('Diamond, Jared', 'Guns, Germs, and Steel: The Fates of Human Societies', 'World History, Non-Fiction, Science, Anthropoly, Sociology', 498, '', 'Antonio', '', 'img/gGS_Diamond.jpg'),
+  new Book('Kostova, Elizabeth', 'The Historian', 'Mystery, Historical Fiction, Suspene', 642, '', 'Antonio', '', 'img/historian_Kostova.jpg'),
+  new Book('Bolaño, Roberto', 'The Savage Detectives', 'Mystery, Psychological, Suspense, Fiction ', 648, '', 'Antonio', '', 'img/savage_Bolano.jpg'),
   // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
   // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
   // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
@@ -36,7 +41,7 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
   this.author = author;
   this.title = title;
   this.genre = genre;
-  this.pages = Number(pages); // nUmber species number, not string
+  this.pages = Number(pages); // nUmber() specifies number, not string
   this.rating = Number(rating);
   this.addedBy = addedBy;
 
@@ -44,7 +49,7 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
     text: review,
     date: new Date()
   };
-  this.image = image || '';
+  this.image = image || 'https://dummyimage.com/150x220/3b5d3b/ede6d1&text=Book'; // for dynamic entries
   this.votes = 0;
   this.views = 0;
 };
@@ -166,6 +171,14 @@ function renderVoting() {
 
 function handleVote(selectedBook) {
 
+  // compares figures; `===` fragile per rendering/voting speed
+  if (voteCount >= maxVotes) {
+    alert('Voting Round Complete!');
+    return;
+  }
+
+  voteCount++;
+
   // increments views tally for both; safe syntax to avoid NaN
   currentPair.forEach(book => {
     book.views = (book.views || 0) + 1;
@@ -193,18 +206,29 @@ function renderChart() {
   }
 
   // prep data
-  // x-axis, book names, accounts for long titles
-  const labels = books.map(book => book.title);
+  // x-axis, book names, .split accounts for long titles
+  const labels = books.map(book => book.title.split(' '));
   const votes = books.map(book => book.votes || 0);   //y-axis, vote count
+  const views = books.map(book => book.views || 0);   // for second
 
   chartInstance = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
-      datasets: [{
-        label: 'Votes',
-        data: votes
-      }]
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Votes',
+          data: votes,
+          yAxisID: 'y'
+        },
+        {
+          type: 'line',
+          label: 'Views',
+          data: views,
+          yAxisID: 'y1'
+        }
+      ]
     },
     options: {
       responsive: true,
@@ -214,8 +238,24 @@ function renderChart() {
         }
       },
       scales: {
-        y: {
+        y: {  // bars
           beginAtZero: true,
+          position: 'left',
+          title: {
+            display: true,
+            text: 'Votes'
+          }
+        },
+        y1: {  //line
+          beginAtZero: true,
+          position: 'right',
+          grid: {
+            drawnOnChartArea: false
+          },
+          title: {
+            display: true,
+            text: 'Views'
+          }
           ticks: {
             stepSize: 1
           }
@@ -226,7 +266,7 @@ function renderChart() {
 };
 
 //=================================
-// function for data persistence  |
+// functions for data persistence  |
 //================================
 
 function saveToLocalStorage() {
@@ -240,8 +280,25 @@ function loadFromLocalStorage() {
 
   let userBooks = [];
 
-  if (data) {
-    userBooks = JSON.parse(data);
+  if (data) { // returns userBooks as Book instances, not just plain objects + votes & views
+    userBooks = JSON.parse(data).map(book => {
+      const newBook = new Book(
+        book.author,
+        book.title,
+        book.genre,
+        book.pages,
+        book.rating,
+        book.addedBy,
+        book.review?.text || '',
+        book.image
+      );
+
+      //preserve existing stats, if any
+      newBook.votes = book.votes || 0;
+      newBook.views = book.views || 0;
+
+      return newBook;
+    });
   }
 
   // combine base + user books
