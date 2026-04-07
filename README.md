@@ -102,9 +102,18 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - future proofed `saveToLocalStorage()` (A)
   - impemented tabs in html and js (for library(table) and for voting) w/ minimal styling. (B)
   - specified which form entries are required for submission (all minus genre and page count). (B)
-  - added random voting generation as well as render voting choices blocks in js. (B) 
+  - added random voting generation as well as render voting choices blocks in js. (B)
 - 04.07.26
   - started implementing Chart.js in voting tab through `renderChart()` and added initialization to the bottom of file. (B)
   - modified `handleVote()` to include `renderChart()`. (B)
   - modified `button.addEventListener()` to only show chart when voting tab is active. (B)
-  - 
+  - added a couple static entries, as well as placeholder template for future entries; need to implement images . (B)
+  - added [bucket list](#if-i-had-more-time--for-future-consideration).
+  -
+
+## If I Had More Time / For Future Consideration
+
+- would implement dynamic book cover generation for user entries (API, link resource log, etc.) rather than placeholder image.
+- allow (controlled) editing of table for genres and/or entry deletion.
+- voting is persistent on refresh atm, but maybe keep a dataset of most popular and compare to sales numbers.
+- link entries to sourcing links (library, amazon/kindle, etc.) so user may buy (affiliate link?).
