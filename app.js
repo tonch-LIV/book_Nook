@@ -49,7 +49,7 @@ const baseBooks = [
   new Book('Balson, Ronald H.', 'Once We Were Brothers', 'Historical Fiction, Legal Drama, Suspense', 394, 4, 'Antonio', 'A weaving of past and present into a search for truth.', 'img/brothers_Balson.jpg'),
   new Book('Bourdain, Anthony', 'Bone in the Throat', 'Crime, Dark Comedy, Culinary, Fiction', 304 , 3, 'Antonio', 'Fast-paced and gritty, with a pinch of dark humor, behind the scenes of the restaurant life and family ties.', 'img/throat_Bourdain.jpg'),
   new Book('Coelho, Paulo', 'The Fifth Mountain', 'Philosophical Fiction, Historical', 245, 3, 'Antonio', 'A narrative focused on resilience and purpose with an emphasis on introspection rather than thought.', 'img/ffthMt_Coelho.jpg'),
-  new Book('Diamond, Jared', 'Guns, Germs, and Steel: The Fates of Human Societies', 'World History, Non-Fiction, Science, Anthropoly, Sociology', 498, '', 'Antonio', '', 'img/gGS_Diamond.jpg'),
+  new Book('Diamond, Jared', 'Guns, Germs, and Steel: The Fates of Human Societies', 'World History, Non-Fiction, Science, Anthropoly, Sociology', 498, '', 'Antonio', '', 'img/guns_Diamond.New.5.jpg'),
   new Book('Kostova, Elizabeth', 'The Historian', 'Mystery, Historical Fiction, Suspene', 642, '', 'Antonio', '', 'img/historian_Kostova.jpg'),
   new Book('Bolaño, Roberto', 'The Savage Detectives', 'Mystery, Psychological, Suspense, Fiction ', 648, '', 'Antonio', '', 'img/savage_Bolano.jpg'),
   // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),

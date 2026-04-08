@@ -22,11 +22,12 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
 - Create form to allow additions to table of new books.
   - javascript will add entries to table. (done, day 1, 03.31, (B))
 - Data persists across refreshes. (done, day 1, 03.31, (B))
-- Add section to display brief reviews as well as book covers. (done, day 1, 03.31, (B))
+- Add section to display brief reviews as well as book covers. (done, day 1, 03.31, covers on day 2, 04.07 (B))
 - Style final result (cozy, clean, smooth, professional) and include a custom font set as well.
 
 - Create a branch for each feature (table, form, reviews, data persistence, style, etc.)
   - got ahead of myself and did most on first branch (tableForm), since they're kind of interwoven...
+  - second branch (votingChart) on day 2.
 
 ### Acceptance Tests
 
@@ -35,20 +36,23 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - coded in JS*, still ensuring static entries. (Day 1)
 - Program form to accept input from user about book details.
   - Ensure user addition through form entries display in table; table cells (rows & columns) will be dynamically added. (Day 1)
-- Section to display 3-4 reviews and book covers.
+- Section to display 3 reviews and book covers. (Day 2)
 - Polish up with styling.
 
 #### Stretch Goals
 
 - Allow users to add images(or links) through form submission, to be used in book review section.
+  - switched placeholder image for user entries and real book cover for static entries. (Day 2-3)
 - Add voting element / section below reviews.
+  - done on new Voting Tab
 - Trigger voting through a button.
-  - If voting is added, entries from form also added into the voting selection mix.
+  - If voting is added, entries from form also added into the voting selection mix. (Day 1)
   - Voting will display selection of 2 (either or; either retain winner or just randomly shuffle).
   - Display results in chart form (bar or other).
+    - stacke bar/line
   - maybe include entry from user input review in static review section; not concrete. (Day 1)
 - Additional data persist. (Day 1)
-- Implement tabs within indexhtml to separate table, form, and reviews from voting and chart. (D added 04.02.26, suggested by Jason)
+- Implement tabs within indexhtml to separate table, form, and reviews from voting and chart. (D added 04.02.26, suggested by Jason, incorporated on Day 1 by B)
 - Incorporate either card or carousel, maybe both, to reviews section. (D added 04.02.26, suggested by Jason)
   - Card would be book cover, interacting (hover, maybe click) would open the review (include rating in review).
   - Carousel would cycle through cards.
@@ -120,7 +124,8 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - moved construvtor `Book()` before `baseBooks()` instance creation to prevent duplicate name creation in review and voting card creation. (A)
   - fixed broken `maxVotes` logic; updated `loadFromLocalStorage()` with formula on dynamic voting rounds. (A)
   - fixed chart options that were breaking runtime logic and preventing vating tab/chart generation... (extra n on `draw(n)OnChartArea` and missisng comma before `ticks`.) (A)
-  - 
+  - reviewed feature task, acceptance tests, and stretch goals. (A)
+  - replaced img for 'Guns, Germs, and Steel' by Jared Diamond. (A)
 
 ## If I Had More Time / For Future Consideration
 
