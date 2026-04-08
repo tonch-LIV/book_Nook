@@ -111,11 +111,15 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - added [bucket list](#if-i-had-more-time--for-future-consideration). (A)
   - fixed `loadFromLocalStorage()` > `userBooks` to account for storage as plain objects, back into instances; prevent chart data from being flawed and votes / views count consistency. (B)
   - x-axis book title 'truncation', names being cutoff, still troubleshooting in `renderChart()` > `labels`. (B)
+    - implemented `.split()` in half, then join, display vert. (A)
   - implemented voting limit through use of global variables; `voteCount`, `maxVotes` and modified `handleVote(selectedBook)` `if` conditional. (B)
     - was broken, missing increment (`votesCount++`). (A)
   - modified `renderChart()` to go from simple bar chart for only votes, to a stacked bar/line chart for distinction between votes and times displayed. (B)
   - modified `renderChart.chartInstance.options.scales()` to implement two axis' to account for both datasets. (A)
   - added static entry book cover images to `img` folder and linked them through new constructor `new Book()` instances. (A)
+  - moved construvtor `Book()` before `baseBooks()` instance creation to prevent duplicate name creation in review and voting card creation. (A)
+  - fixed broken `maxVotes` logic; updated `loadFromLocalStorage()` with formula on dynamic voting rounds. (A)
+  - fixed chart options that were breaking runtime logic and preventing vating tab/chart generation... (extra n on `draw(n)OnChartArea` and missisng comma before `ticks`.) (A)
   - 
 
 ## If I Had More Time / For Future Consideration

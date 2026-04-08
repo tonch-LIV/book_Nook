@@ -13,24 +13,7 @@ let chartInstance = null;
 // vote count
 
 let voteCount = 0;
-const maxVotes = books.length * 2.5;  // voting varies on length of entries
-
-const baseBooks = [
-  new Book('Allende, Isabel', 'El Viento Conoce Mi Nombre', 'Historical Fiction, Drama', 272, 4, 'Antonio', 'A blend of history with personal loss.', 'img/wind_Allende.jpg'),
-  new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'Mystery, Detective, Crime, Fiction', 272, 4, 'Antonio', 'Slow-burn detective story that strongly portrays atmosphere and environment.', 'img/silence_Garcia.jpg'),
-  new Book('Kim, Angie', 'Miracle Creek', 'Mystery, Crime, Legal', 368, 4, 'Antonio', 'Courtroom drama trying to solve a mystery that involves complex characters with layered morals and values.', 'img/miracle_Kim.jpg'),
-  new Book('Bearden, Milton', 'The Black Tulip', 'Espionage, Historical Fiction', 336, 4, 'Antonio', 'Rich in detail about real-world espionage and historical events as they are occurring.', 'img/tulip_Bearden.jpg'),
-  new Book('Balson, Ronald H.', 'Once We Were Brothers', 'Historical Fiction, Legal Drama, Suspense', 394, 4, 'Antonio', 'A weaving of past and present into a search for truth.', 'img/brothers_Balson.jpg'),
-  new Book('Bourdain, Anthony', 'Bone in the Throat', 'Crime, Dark Comedy, Culinary, Fiction', 304 , 3, 'Antonio', 'Fast-paced and gritty, with a pinch of dark humor, behind the scenes of the restaurant life and family ties.', 'img/throat_Bourdain.jpg'),
-  new Book('Coelho, Paulo', 'The Fifth Mountain', 'Philosophical Fiction, Historical', 245, 3, 'Antonio', 'A narrative focused on resilience and purpose with an emphasis on introspection rather than thought.', 'img/ffthMt_Coelho.jpg'),
-  new Book('Diamond, Jared', 'Guns, Germs, and Steel: The Fates of Human Societies', 'World History, Non-Fiction, Science, Anthropoly, Sociology', 498, '', 'Antonio', '', 'img/gGS_Diamond.jpg'),
-  new Book('Kostova, Elizabeth', 'The Historian', 'Mystery, Historical Fiction, Suspene', 642, '', 'Antonio', '', 'img/historian_Kostova.jpg'),
-  new Book('Bolaño, Roberto', 'The Savage Detectives', 'Mystery, Psychological, Suspense, Fiction ', 648, '', 'Antonio', '', 'img/savage_Bolano.jpg'),
-  // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
-  // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
-  // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
-  
-];
+let maxVotes = 0; 
 
 //===================================
 // constructor for new books added  |
@@ -53,6 +36,27 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
   this.votes = 0;
   this.views = 0;
 };
+
+//=======================================
+//  instance creation for book entries  |
+//======================================
+
+const baseBooks = [
+  new Book('Allende, Isabel', 'El Viento Conoce Mi Nombre', 'Historical Fiction, Drama', 272, 4, 'Antonio', 'A blend of history with personal loss.', 'img/wind_Allende.jpg'),
+  new Book('Garcia-Roza, Luiz Alfredo', 'The Silence of the Rain', 'Mystery, Detective, Crime, Fiction', 272, 4, 'Antonio', 'Slow-burn detective story that strongly portrays atmosphere and environment.', 'img/silence_Garcia.jpg'),
+  new Book('Kim, Angie', 'Miracle Creek', 'Mystery, Crime, Legal', 368, 4, 'Antonio', 'Courtroom drama trying to solve a mystery that involves complex characters with layered morals and values.', 'img/miracle_Kim.jpg'),
+  new Book('Bearden, Milton', 'The Black Tulip', 'Espionage, Historical Fiction', 336, 4, 'Antonio', 'Rich in detail about real-world espionage and historical events as they are occurring.', 'img/tulip_Bearden.jpg'),
+  new Book('Balson, Ronald H.', 'Once We Were Brothers', 'Historical Fiction, Legal Drama, Suspense', 394, 4, 'Antonio', 'A weaving of past and present into a search for truth.', 'img/brothers_Balson.jpg'),
+  new Book('Bourdain, Anthony', 'Bone in the Throat', 'Crime, Dark Comedy, Culinary, Fiction', 304 , 3, 'Antonio', 'Fast-paced and gritty, with a pinch of dark humor, behind the scenes of the restaurant life and family ties.', 'img/throat_Bourdain.jpg'),
+  new Book('Coelho, Paulo', 'The Fifth Mountain', 'Philosophical Fiction, Historical', 245, 3, 'Antonio', 'A narrative focused on resilience and purpose with an emphasis on introspection rather than thought.', 'img/ffthMt_Coelho.jpg'),
+  new Book('Diamond, Jared', 'Guns, Germs, and Steel: The Fates of Human Societies', 'World History, Non-Fiction, Science, Anthropoly, Sociology', 498, '', 'Antonio', '', 'img/gGS_Diamond.jpg'),
+  new Book('Kostova, Elizabeth', 'The Historian', 'Mystery, Historical Fiction, Suspene', 642, '', 'Antonio', '', 'img/historian_Kostova.jpg'),
+  new Book('Bolaño, Roberto', 'The Savage Detectives', 'Mystery, Psychological, Suspense, Fiction ', 648, '', 'Antonio', '', 'img/savage_Bolano.jpg'),
+  // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
+  // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
+  // new Book('Last, First', 'Title', 'Genres(s)', page count, rating, 'Antonio', 'review'),
+  
+];
 
 //=========
 // table  |
@@ -206,8 +210,16 @@ function renderChart() {
   }
 
   // prep data
-  // x-axis, book names, .split accounts for long titles
-  const labels = books.map(book => book.title.split(' '));
+  // x-axis, book names, .split accounts for long titles; divides in half, stacks vert
+  const labels = books.map(book => {
+    const words = book.title.split(' ');
+    const mid = Math.ceil(words.length / 2);
+
+    return [
+      words.slice(0, mid).join(' '),
+      words.slice(mid).join(' ')
+    ];
+  });
   const votes = books.map(book => book.votes || 0);   //y-axis, vote count
   const views = books.map(book => book.views || 0);   // for second
 
@@ -250,12 +262,12 @@ function renderChart() {
           beginAtZero: true,
           position: 'right',
           grid: {
-            drawnOnChartArea: false
+            drawOnChartArea: false
           },
           title: {
             display: true,
             text: 'Views'
-          }
+          },
           ticks: {
             stepSize: 1
           }
@@ -303,6 +315,9 @@ function loadFromLocalStorage() {
 
   // combine base + user books
   books = [...baseBooks, ...userBooks];
+
+  // voting varies on length of entries
+  maxVotes = Math.floor(books.length * 2.5);
 
   renderTable();
   renderReviews();
