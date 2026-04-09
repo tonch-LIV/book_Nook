@@ -85,3 +85,51 @@ legend {
   padding: 0 10px;
   font-weight: bold;
 }
+
+.review-card {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+}
+
+.review-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* .review-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+} */
+
+#tabs {
+  display: flex;
+  gap: 90px;
+  margin: 20px;
+  justify-content: center;
+}
+
+#tabs button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background: #ddd;
+  border-radius: 6px;
+}
+
+#tabs button.active {
+  background: #333;
+  color: white;
+}
+
+.tab {
+  display: none;
+}
+
+.tab.active {
+  display: block;
+}

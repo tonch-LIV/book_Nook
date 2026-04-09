@@ -1,10 +1,9 @@
 # book_Nook
 
-chart / log and reviews / display
+log and track books + reviews / vote and display chart
 
-Place for author and other users to log and track books read / are currently reading.  
-Add Recommendations.  
-Share reviews and/or comments.  
+Place for users to log and track books read.
+Share reviews and/or find recommendations.  
 Maybe include voting and chart (big MAYBE).
 
 A = Team Leader Antonio  
@@ -14,7 +13,7 @@ D = Consigliere Antonio
 
 ## User Stories
 
-As an avid reader; I often read more than one book at a time; starting one before finishing the previous. I'd like to keep track of what books I am reading and have read, so that I may keep record, provide a rating and review, as well as let other users share and rate books they've read and let them discover new books.
+As an avid reader, I'd like to keep track of what books I've read, so that I may keep record, provide a rating and review, as well as let other users share and rate books they've read and let them discover new books.
 
 ### Feature Tasks
 
@@ -23,11 +22,12 @@ As an avid reader; I often read more than one book at a time; starting one befor
 - Create form to allow additions to table of new books.
   - javascript will add entries to table. (done, day 1, 03.31, (B))
 - Data persists across refreshes. (done, day 1, 03.31, (B))
-- Add section to display brief reviews as well as book covers. (done, day 1, 03.31, (B))
+- Add section to display brief reviews as well as book covers. (done, day 1, 03.31, covers on day 2, 04.07 (B))
 - Style final result (cozy, clean, smooth, professional) and include a custom font set as well.
 
 - Create a branch for each feature (table, form, reviews, data persistence, style, etc.)
   - got ahead of myself and did most on first branch (tableForm), since they're kind of interwoven...
+  - second branch (votingChart) on day 2.
 
 ### Acceptance Tests
 
@@ -36,21 +36,23 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - coded in JS*, still ensuring static entries. (Day 1)
 - Program form to accept input from user about book details.
   - Ensure user addition through form entries display in table; table cells (rows & columns) will be dynamically added. (Day 1)
-- Section to display 3-4 reviews and book covers.
+- Section to display 3 reviews and book covers. (Day 2)
 - Polish up with styling.
 
 #### Stretch Goals
 
-- Allow users to add images through form submission, to be used in book review section.
+- Allow users to add images(or links) through form submission, to be used in book review section.
+  - switched placeholder image for user entries and real book cover for static entries. (Day 2-3)
 - Add voting element / section below reviews.
+  - done on new Voting Tab
 - Trigger voting through a button.
-  - If voting is added, entries from form also added into the voting selection mix.
+  - If voting is added, entries from form also added into the voting selection mix. (Day 1)
   - Voting will display selection of 2 (either or; either retain winner or just randomly shuffle).
   - Display results in chart form (bar or other).
+    - stacke bar/line
   - maybe include entry from user input review in static review section; not concrete. (Day 1)
 - Additional data persist. (Day 1)
-- wire delete button to edit/modify entries. (D added 03.31.26)
-- Implement tabs within indexhtml to separate table, form, and reviews from voting and chart. (D added 04.02.26, suggested by Jason)
+- Implement tabs within indexhtml to separate table, form, and reviews from voting and chart. (D added 04.02.26, suggested by Jason, incorporated on Day 1 by B)
 - Incorporate either card or carousel, maybe both, to reviews section. (D added 04.02.26, suggested by Jason)
   - Card would be book cover, interacting (hover, maybe click) would open the review (include rating in review).
   - Carousel would cycle through cards.
@@ -98,4 +100,43 @@ As an avid reader; I often read more than one book at a time; starting one befor
   - fixed `form` to include labels for accessibility considerations (lighthouse report, day one) and include context for 'blank' rating input; added styling to stack them vertically using ` ` through `#bookForm, #bookForm label` css; added elements to a `fieldset`. (A)
   - light styling to `form` elements to make it more form-like through css grid. (B)
   - added missing reviews to `baseBooks` plus new entries. (B)
-  
+  - created `votingChart` branch. (A)
+  - added some styling to reviews through `review-card` and `review-card:hover`. (B)
+  - added place to add img (book cover url) to form and updated constructor `Book`, form submission `form.addEventListener()` to support addition. (B)
+  - future proofed `saveToLocalStorage()` (A)
+  - impemented tabs in html and js (for library(table) and for voting) w/ minimal styling. (B)
+  - specified which form entries are required for submission (all minus genre and page count). (B)
+  - added random voting generation as well as render voting choices blocks in js. (B)
+
+### Day 3
+
+- 04.07.26
+  - started implementing Chart.js in voting tab through `renderChart()` and added initialization to the bottom of file. (B)
+  - modified `handleVote()` to include `renderChart()`. (B)
+  - modified `button.addEventListener()` to only show chart when voting tab is active. (B)
+  - added a couple static entries, as well as placeholder template for future entries; need to implement images . (B)
+  - added [bucket list](#if-i-had-more-time--for-future-consideration). (A)
+  - fixed `loadFromLocalStorage()` > `userBooks` to account for storage as plain objects, back into instances; prevent chart data from being flawed and votes / views count consistency. (B)
+  - x-axis book title 'truncation', names being cutoff, still troubleshooting in `renderChart()` > `labels`. (B)
+    - implemented `.split()` in half, then join, display vert. (A)
+  - implemented voting limit through use of global variables; `voteCount`, `maxVotes` and modified `handleVote(selectedBook)` `if` conditional. (B)
+    - was broken, missing increment (`votesCount++`). (A)
+  - modified `renderChart()` to go from simple bar chart for only votes, to a stacked bar/line chart for distinction between votes and times displayed. (B)
+  - modified `renderChart.chartInstance.options.scales()` to implement two axis' to account for both datasets. (A)
+  - added static entry book cover images to `img` folder and linked them through new constructor `new Book()` instances. (A)
+  - moved construvtor `Book()` before `baseBooks()` instance creation to prevent duplicate name creation in review and voting card creation. (A)
+  - fixed broken `maxVotes` logic; updated `loadFromLocalStorage()` with formula on dynamic voting rounds. (A)
+  - fixed chart options that were breaking runtime logic and preventing vating tab/chart generation... (extra n on `draw(n)OnChartArea` and missisng comma before `ticks`.) (A)
+  - reviewed feature task, acceptance tests, and stretch goals. (A)
+  - replaced img for 'Guns, Germs, and Steel' by Jared Diamond. (A)
+
+### Day 4
+
+- 04.09.26
+
+## If I Had More Time / For Future Consideration
+
+- would implement dynamic book cover generation for user entries (API, link resource log, etc.) rather than placeholder image.
+- allow (controlled) editing of table for genres and/or entry deletion.
+- voting is persistent on refresh atm, but maybe keep a dataset of most popular and compare to sales numbers.
+- link entries to sourcing links (library, amazon/kindle, etc.) so user may buy (affiliate link?).

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/styles.css">
-  <!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> if needed-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>Book Nook &copy; Home</title>
 </head>
 
@@ -16,72 +16,101 @@
     <h1>Book Nook</h1>
   </header>
 
+  <div id="tabs">
+    <button data-tab="libraryTab" class="active">Library</button>
+    <button data-tab="votingTab">Voting</button>
+  </div>
+
   <main>
 
-    <!-- TABLE SECTION -->
-    <section id="tableSection">
-      <h2>Library</h2>
+     <!-- TAB 1 -->
+    <div id="libraryTab" class="tab active">
 
-      <table id="bookTable">
-        <thead>
-          <tr>
-            <th>Author</th>
-            <th>Book Name</th>
-            <th>Genre</th>
-            <th>Pages</th>
-            <th>Rating</th>
-            <th>Added By</th>
-          </tr>
-        </thead>
+      <!-- TABLE SECTION -->
+      <section id="tableSection">
+        <h2>Library</h2>
 
-        <tbody>
-          <!-- JS will insert rows here -->
-        </tbody>
-      </table>
-    </section>
+        <table id="bookTable">
+          <thead>
+            <tr>
+              <th>Author</th>
+              <th>Book Name</th>
+              <th>Genre</th>
+              <th>Pages</th>
+              <th>Rating</th>
+              <th>Added By</th>
+            </tr>
+          </thead>
 
-    <!-- FORM SECTION -->
-    <section id="formSection">
+          <tbody>
+            <!-- JS will insert rows here -->
+          </tbody>
+        </table>
+      </section>
 
-      <form id="bookForm">
+      <!-- FORM SECTION -->
+      <section id="formSection">
 
-        <fieldset>
-          <legend>Add a Book</legend>
+        <form id="bookForm">
+
+          <fieldset>
+            <legend>Add a Book</legend>
+            
+            <label for="author">Author</label>
+            <input id="author" name="author" placeholder="Last, First" required />
+
+            <label for="title">Book Name</label>
+            <input id="title" name="title" required />
+
+            <label for="genre">Genre</label>
+            <input id="genre" name="genre" />
+
+            <label for="pages">Pages</label>
+            <input id="pages" name="pages" type="number" />
+
+            <label for="rating">Rating</label>
+            <input id="rating" name="rating" required placeholder="1-5" type="number" min="1" max="5" />
+
+            <label for="addedBy">Added By</label>
+            <input id="addedBy" name="addedBy" required />
+
+            <label for="review">Review</label>
+            <textarea id="review" name="review" required></textarea>
+
+            <label for="image">Book Cover</label>
+            <input id="image" name="image" placeholder="Image URL (optional)" />
+          </fieldset>
           
-          <label for="author">Author</label>
-          <input id="author" name="author" placeholder="Last, First" required />
+          <button type="submit">Add Book</button>
+        </form>
 
-          <label for="title">Book Name</label>
-          <input id="title" name="title" required />
+      </section>
 
-          <label for="genre">Genre</label>
-          <input id="genre" name="genre" />
+      <!-- REVIEWS SECTION -->
+      <section id="reviewsSection">
+        <h2>Reviews</h2>
+        <div id="reviewsContainer">
+          <!-- cards will go here -->
+        </div>
+      </section>
+    </div>
 
-          <label for="pages">Pages</label>
-          <input id="pages" name="pages" type="number" />
+    <!-- TAB 2 -->
+    <div id="votingTab" class="tab">
 
-          <label for="rating">Rating</label>
-          <input id="rating" name="rating" placeholder="1-5" type="number" min="1" max="5" />
+      <section id="votingSection">
+        <h2>Vote for Your Favorite</h2>
+        <div id="votingContainer">
+          <!-- voting cards go here -->
+        </div>
+      </section>
 
-          <label for="addedBy">Added By</label>
-          <input id="addedBy" name="addedBy" />
+      <section id="chartSection">
+        <h2>Results</h2>
+        <canvas id="resultsChart"></canvas>
+      </section>
 
-          <label for="review">Review</label>
-          <textarea id="review" name="review"></textarea>
-        </fieldset>
-        
-        <button type="submit">Add Book</button>
-      </form>
-
-    </section>
-
-    <!-- REVIEWS SECTION -->
-    <section id="reviewsSection">
-      <h2>Reviews</h2>
-      <div id="reviewsContainer">
-        <!-- cards will go here -->
-      </div>
-    </section>
+    </div>
 
   </main>
 
