@@ -134,14 +134,18 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
 
 - 04.09.26
   - disabled voting functionality after round completion through `disableVoting()`. (B)
+    - refactored to delete function; include functionality inside `handleVote()`. (A)
   - added reset button to html; id's `votingControls`, `"resetVotes`, and `votingMessage`. (B)
   - added conditional to `renderVoting()` as a safeguard for voting to ensure suficient entries to choose from. (B)
   - modified way book entries are displayed in both, `renderVoting()` and `renderReviews()` as well as `bookCover` to account for uniform display of images. (B)
   - added event listener for `resetVoting` button. (B)
-  - added `resetVoting()` logic to reset counts for votes, views to 0. (B)
   - replaced `alert()` in `handleVote()` to link it with DOM through `id=votingMessage` and simplified `disableVoting()` to avoid duplicate/redundant messages. (B)
-  - added `showVotingMessage()` to top of `renderVoting()` so it'll display an empty text content during voting sessions. (A)
+  - created `showVotingMessage()` to facilitate text/message creation added to top of `renderVoting()` so it'll display an empty text content during voting sessions. (A)
   - optimized chart to not render on page load, 'update'/render after each vote, and re-render on tab switch by 
+  - added `resetVoting()` logic to reset counts for votes, views to 0. (B)
+  - refactored `renderVoting()` to generate data after validation of state by switching location of `if` conditional loop and `currentVotingPair` variable. (A)
+  - refactored to deleted `disableVoting()` and its invocation within `handleVote()`. (A)
+  - 
 
 ## If I Had More Time / For Future Consideration
 

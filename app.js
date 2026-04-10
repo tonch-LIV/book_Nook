@@ -105,7 +105,7 @@ function renderReviews() {
     if (!book) continue;
 
     const card = document.createElement('div');
-    card.classList.add('review-card');
+    card.classList.add('reviewCard');
 
     // protects from error and crashing if `book.review` and `date` is missing
     const date = book.review?.date
@@ -151,24 +151,30 @@ function getRandomBooks() {
   return [books[index1], books[index2]];
 };
 
+// helper text creater
+function showVotingMessage(message) {
+  document.getElementById('votingMessage').textContent = message;
+};
+
 function renderVoting() {
   showVotingMessage('');
+
   const container = document.getElementById('votingContainer');
   container.innerHTML = ''; // clear
 
-  // stores function to get 2 random choices in a variable
-  currentPair = getRandomBooks();
-
-  // ensures voting can only happen if there are more than two entries in table; redundant due to quantity of static entries, but still...
+  // validates state / ensures voting can only happen if there are more than two entries in table; redundant due to quantity of static entries, but still...
   if (books.length < 2) {
     container.innerHTML = '<p>Add more entries to the table to be able to vote.</p>';
     return;
-  }
+  };
+
+  // generates data; stores function to get 2 random choices in variable 
+  currentVotingPair = getRandomBooks();
 
   // creates clickable cards during votes
-  currentPair.forEach(book => {
+  currentVotingPair.forEach(book => {
     const card = document.createElement('div');
-    card.classList.add('review-card');
+    card.classList.add('reviewCard');
 
     //placeholder image
     card.innerHTML = `
@@ -190,26 +196,21 @@ function renderVoting() {
   });
 };
 
-// reset
-
-function disableVoting() {
-  const container = document.getElementById('votingContainer');
-  container.innerHTML = '';
-};
-
 function handleVote(selectedBook) {
 
   // compares figures; `===` fragile per rendering/voting speed
   if (voteCount >= maxVotes) {
-    disableVoting(); //  once rounds are complete, functionality goes away
-    document.getElementById('votingMessage').textContent = 'Voting Complete. Reset for new round';
+    showVotingMessage('Voting Complete. Reset for new round.');
+
+    // replaces disableVoting()
+    document.getElementById('votingContainer').innerHTML = '';
     return;
   }
 
   voteCount++;
 
   // increments views tally for both; safe syntax to avoid NaN
-  currentPair.forEach(book => {
+  currentVotingPair.forEach(book => {
     book.views = (book.views || 0) + 1;
   });
 
@@ -220,6 +221,26 @@ function handleVote(selectedBook) {
   saveToLocalStorage();
   renderVoting();
   renderChart();    // live feedback on voting through chart updates
+};
+
+//================
+// voting reset  |
+//===============
+
+function resetVoting() {
+  voteCount = 0;
+
+  books.forEach(book => {
+    book.votes = 0;
+    book.views = 0;
+  });
+
+  saveToLocalStorage();
+
+  renderVoting();
+  renderChart();
+
+  showVotingMessage('');
 };
 
 //=========
