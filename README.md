@@ -124,7 +124,7 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - modified `renderChart()` to go from simple bar chart for only votes, to a stacked bar/line chart for distinction between votes and times displayed. (B)
   - modified `renderChart.chartInstance.options.scales()` to implement two axis' to account for both datasets. (A)
   - added static entry book cover images to `img` folder and linked them through new constructor `new Book()` instances. (A)
-  - moved construvtor `Book()` before `baseBooks()` instance creation to prevent duplicate name creation in review and voting card creation. (A)
+  - moved construvtor `Book()` before `baseBooks()` instance creation to prevent duplicate name creation in review and voting card creation; declarations before invocations (A)
   - fixed broken `maxVotes` logic; updated `loadFromLocalStorage()` with formula on dynamic voting rounds. (A)
   - fixed chart options that were breaking runtime logic and preventing vating tab/chart generation... (extra n on `draw(n)OnChartArea` and missisng comma before `ticks`.) (A)
   - reviewed feature task, acceptance tests, and stretch goals. (A)
@@ -133,6 +133,15 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
 ### Day 4
 
 - 04.09.26
+  - disabled voting functionality after round completion through `disableVoting()`. (B)
+  - added reset button to html; id's `votingControls`, `"resetVotes`, and `votingMessage`. (B)
+  - added conditional to `renderVoting()` as a safeguard for voting to ensure suficient entries to choose from. (B)
+  - modified way book entries are displayed in both, `renderVoting()` and `renderReviews()` as well as `bookCover` to account for uniform display of images. (B)
+  - added event listener for `resetVoting` button. (B)
+  - added `resetVoting()` logic to reset counts for votes, views to 0. (B)
+  - replaced `alert()` in `handleVote()` to link it with DOM through `id=votingMessage` and simplified `disableVoting()` to avoid duplicate/redundant messages. (B)
+  - added `showVotingMessage()` to top of `renderVoting()` so it'll display an empty text content during voting sessions. (A)
+  - optimized chart to not render on page load, 'update'/render after each vote, and re-render on tab switch by 
 
 ## If I Had More Time / For Future Consideration
 

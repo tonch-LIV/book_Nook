@@ -133,3 +133,25 @@ legend {
 .tab.active {
   display: block;
 }
+
+.bookCover {
+  position: relative;
+  display: block;
+}
+
+.bookCover img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* two-tone for spine */
+.bookCover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  background: #3b5d3b;
+  border-radius: 6px 0 0 6px;
+}

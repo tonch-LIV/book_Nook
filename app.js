@@ -112,8 +112,13 @@ function renderReviews() {
       ? new Date(book.review.date).toLocaleDateString()
       : '';
 
+      // palceholder plan
     card.innerHTML = `
-      ${book.image ? `<img src="${book.image}" alt="${book.title}" />` : ''}
+      ${book.image ? `
+        <div class="bookCover">
+          <img src="${book.image}" alt="${book.title}" />
+        </div>
+      ` : ''}
       <h3>${book.title}</h3>
       <p class="author">by ${book.author}</p>
       <p>"${book.review?.text || "No review yet"}"</p>
@@ -129,7 +134,7 @@ function renderReviews() {
 //=========
 
 // stores currently displayed choices
-let currentPair = [];
+let currentVotingPair = [];
 
 function getRandomBooks() {
   if (books.length < 2) return [];
@@ -147,19 +152,31 @@ function getRandomBooks() {
 };
 
 function renderVoting() {
+  showVotingMessage('');
   const container = document.getElementById('votingContainer');
   container.innerHTML = ''; // clear
 
   // stores function to get 2 random choices in a variable
   currentPair = getRandomBooks();
 
+  // ensures voting can only happen if there are more than two entries in table; redundant due to quantity of static entries, but still...
+  if (books.length < 2) {
+    container.innerHTML = '<p>Add more entries to the table to be able to vote.</p>';
+    return;
+  }
+
   // creates clickable cards during votes
   currentPair.forEach(book => {
     const card = document.createElement('div');
     card.classList.add('review-card');
 
+    //placeholder image
     card.innerHTML = `
-      ${book.image ? `<img src="${book.image}" alt="${book.title}" />` : ''}
+      ${book.image ? `
+        <div class = "bookCover">
+          <img src="${book.image}" alt="${book.title}" />
+        </div>
+      ` : ''}
       <h3>${book.title}</h3>
       <p>${book.author}</p>
     `;
@@ -173,11 +190,19 @@ function renderVoting() {
   });
 };
 
+// reset
+
+function disableVoting() {
+  const container = document.getElementById('votingContainer');
+  container.innerHTML = '';
+};
+
 function handleVote(selectedBook) {
 
   // compares figures; `===` fragile per rendering/voting speed
   if (voteCount >= maxVotes) {
-    alert('Voting Round Complete!');
+    disableVoting(); //  once rounds are complete, functionality goes away
+    document.getElementById('votingMessage').textContent = 'Voting Complete. Reset for new round';
     return;
   }
 
@@ -220,6 +245,7 @@ function renderChart() {
       words.slice(mid).join(' ')
     ];
   });
+
   const votes = books.map(book => book.votes || 0);   //y-axis, vote count
   const views = books.map(book => book.views || 0);   // for second
 
@@ -316,13 +342,14 @@ function loadFromLocalStorage() {
   // combine base + user books
   books = [...baseBooks, ...userBooks];
 
-  // voting varies on length of entries
+  // voting varies on length of entries; happens after `books` exists
   maxVotes = Math.floor(books.length * 2.5);
 
   renderTable();
   renderReviews();
 };
 
+//  after DOM is loaded and available, event listeners
 //=======================
 // form event listener  |
 //======================
@@ -352,9 +379,16 @@ form.addEventListener('submit', function (e) {
   form.reset(); // UX bonus
 });
 
-//====================
-// tab functionality |
-//====================
+//=========================
+// button event listener  |
+//========================
+
+const resetButton = document.getElementById('resetVotes');
+resetButton.addEventListener('click', resetVoting);
+
+//=============================
+// tab functionality listener |
+//============================
 
 // grabs buttons 'library' and 'voting'
 const tabButtons = document.querySelectorAll('#tabs button');
