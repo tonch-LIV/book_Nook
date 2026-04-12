@@ -15,6 +15,9 @@ let chartInstance = null;
 let voteCount = 0;
 let maxVotes = 0; 
 
+// stores currently displayed choices
+let currentVotingPair = [];
+
 //===================================
 // constructor for new books added  |
 //==================================
@@ -58,12 +61,28 @@ const baseBooks = [
   
 ];
 
+//=================================
+// DOM cache for query selection  |
+//================================
+
+const DOM = {
+  tableBody: document.querySelector('#book-table tbody'),
+  reviewsContainer: document.getElementById('reviews-container'),
+  votingContainer: document.getElementById('voting-container'),
+  votingMessage: document.getElementById('voting-message'),
+  resultsChart: document.getElementById('results-chart'),
+  form: document.getElementById('book-form'),
+  resetButton: document.getElementById('reset-votes'),
+  tabButtons: document.querySelectorAll('#tabs button'),
+  tabs: document.querySelectorAll('.tab')
+};
+
 //=========
 // table  |
 //========
 
 function renderTable() {
-  const tbody = document.querySelector('#bookTable tbody');
+  const tbody = DOM.tableBody;
   tbody.innerHTML = '';
 
   for (let book of books) {
@@ -87,12 +106,15 @@ function renderTable() {
 //==========
 
 function renderReviews() {
-  const container = document.getElementById('reviewsContainer');
+  const container = DOM.reviewsContainer;
 
   // sorting; ensures entries stay in original order, baseBooks first
   const sortedBooks = [...books].sort(
   (a, b) => new Date(b.review.date) - new Date(a.review.date)
 );
+    // guard
+  if (sortedBooks.length === 0) return;
+
   container.innerHTML = '';
 
   // ensures three reviews show up
@@ -105,17 +127,17 @@ function renderReviews() {
     if (!book) continue;
 
     const card = document.createElement('div');
-    card.classList.add('reviewCard');
+    card.classList.add('review-card');
 
     // protects from error and crashing if `book.review` and `date` is missing
     const date = book.review?.date
       ? new Date(book.review.date).toLocaleDateString()
       : '';
 
-      // palceholder plan
+      // placeholder plan
     card.innerHTML = `
       ${book.image ? `
-        <div class="bookCover">
+        <div class="book-cover">
           <img src="${book.image}" alt="${book.title}" />
         </div>
       ` : ''}
@@ -133,9 +155,6 @@ function renderReviews() {
 // voting  |
 //=========
 
-// stores currently displayed choices
-let currentVotingPair = [];
-
 function getRandomBooks() {
   if (books.length < 2) return [];
 
@@ -151,20 +170,28 @@ function getRandomBooks() {
   return [books[index1], books[index2]];
 };
 
-// helper text creater
+//======================
+// helper DOM queries  |
+//===================== 
+
 function showVotingMessage(message) {
-  document.getElementById('votingMessage').textContent = message;
+  DOM.votingMessage.textContent = message;
+};
+
+function clearVotingUI() {
+  const container = DOM.votingContainer;
+  container.innerHTML = '';
 };
 
 function renderVoting() {
+  const container = DOM.votingContainer;
+  
   showVotingMessage('');
+  clearVotingUI();
 
-  const container = document.getElementById('votingContainer');
-  container.innerHTML = ''; // clear
-
-  // validates state / ensures voting can only happen if there are more than two entries in table; redundant due to quantity of static entries, but still...
+  // validates state / voting requires min 2 entries
   if (books.length < 2) {
-    container.innerHTML = '<p>Add more entries to the table to be able to vote.</p>';
+    showVotingMessage('Add more entries to the table to be able to vote.');
     return;
   };
 
@@ -174,12 +201,12 @@ function renderVoting() {
   // creates clickable cards during votes
   currentVotingPair.forEach(book => {
     const card = document.createElement('div');
-    card.classList.add('reviewCard');
+    card.classList.add('review-card');
 
     //placeholder image
     card.innerHTML = `
       ${book.image ? `
-        <div class = "bookCover">
+        <div class = "book-cover">
           <img src="${book.image}" alt="${book.title}" />
         </div>
       ` : ''}
@@ -187,7 +214,6 @@ function renderVoting() {
       <p>${book.author}</p>
     `;
 
-    // click = vote
     card.addEventListener('click', () => {
       handleVote(book);
     });
@@ -198,14 +224,13 @@ function renderVoting() {
 
 function handleVote(selectedBook) {
 
-  // compares figures; `===` fragile per rendering/voting speed
+  // compares figures
   if (voteCount >= maxVotes) {
-    showVotingMessage('Voting Complete. Reset for new round.');
+    showVotingMessage('Voting Complete. Reset to start new round.');
 
-    // replaces disableVoting()
-    document.getElementById('votingContainer').innerHTML = '';
+    clearVotingUI();
     return;
-  }
+  };
 
   voteCount++;
 
@@ -235,8 +260,9 @@ function resetVoting() {
     book.views = 0;
   });
 
-  saveToLocalStorage();
-
+  currentVotingPair = [];
+  saveToLocalStorage(); //  always persist state
+  
   renderVoting();
   renderChart();
 
@@ -248,7 +274,7 @@ function resetVoting() {
 //========
 
 function renderChart() {
-  const ctx = document.getElementById('resultsChart');
+  const ctx = DOM.resultsChart.getContext('2d');
 
   // destroy previous/existing chart, if any
   if (chartInstance) {
@@ -285,7 +311,7 @@ function renderChart() {
           type: 'line',
           label: 'Views',
           data: views,
-          yAxisID: 'y1'
+          yAxisID: 'y1' //  change to just 'y' to view single y axis
         }
       ]
     },
@@ -303,9 +329,13 @@ function renderChart() {
           title: {
             display: true,
             text: 'Votes'
+          },
+          ticks: {
+            stepSize: 1,
+            precision: 0
           }
         },
-        y1: {  //line
+        y1: {  //line; from here
           beginAtZero: true,
           position: 'right',
           grid: {
@@ -318,7 +348,7 @@ function renderChart() {
           ticks: {
             stepSize: 1
           }
-        }
+        } // to here
       }
     }
   });
@@ -364,7 +394,7 @@ function loadFromLocalStorage() {
   books = [...baseBooks, ...userBooks];
 
   // voting varies on length of entries; happens after `books` exists
-  maxVotes = Math.floor(books.length * 2.5);
+  maxVotes = Math.floor(books.length * 1.5);
 
   renderTable();
   renderReviews();
@@ -375,9 +405,7 @@ function loadFromLocalStorage() {
 // form event listener  |
 //======================
 
-const form = document.getElementById('bookForm');
-
-form.addEventListener('submit', function (e) {
+DOM.form.addEventListener('submit', function (e) {
   e.preventDefault();
 
   const newBook = new Book(
@@ -397,36 +425,32 @@ form.addEventListener('submit', function (e) {
   renderReviews();
   saveToLocalStorage();
 
-  form.reset(); // UX bonus
+  DOM.form.reset();
 });
 
 //=========================
 // button event listener  |
 //========================
 
-const resetButton = document.getElementById('resetVotes');
-resetButton.addEventListener('click', resetVoting);
+DOM.resetButton.addEventListener('click', resetVoting);
 
 //=============================
 // tab functionality listener |
 //============================
 
-// grabs buttons 'library' and 'voting'
-const tabButtons = document.querySelectorAll('#tabs button');
-
 // loops through buttons and applies behavior after 'click'
-tabButtons.forEach(button => {
+DOM.tabButtons.forEach(button => {
   button.addEventListener('click', () => {
     const target = button.dataset.tab; //tied to button data-tab
 
     // remove active class from all buttons
-    tabButtons.forEach(btn => btn.classList.remove('active'));
+    DOM.tabButtons.forEach(btn => btn.classList.remove('active'));
 
     // add active class to clicked button; highlights
     button.classList.add('active');
 
     // hide all tab content
-    document.querySelectorAll('.tab').forEach(tab => {
+    DOM.tabs.forEach(tab => {
       tab.classList.remove('active');
     });
 
@@ -446,7 +470,6 @@ tabButtons.forEach(button => {
 
 loadFromLocalStorage();
 renderVoting();
-renderChart();
 
 // timer
 setInterval(() => {

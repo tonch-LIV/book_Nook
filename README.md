@@ -80,7 +80,7 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - added constructor (`Book`) for book info, empty `books` array to store, and started on form submission event listener. (B)
   - 'refactored' `app.js` for cleaner structure. (A)
   - uncommented text area for reviews. (B)
-  - implemented css grid on `main` and `reviewsContainer` styling. (B)
+  - implemented css grid on `main` and `reviews-container` styling. (B)
   - replaced dynamic object iteration w/ ordered field mapping within `renderTable()` by modifying `for` loop to match `thead`. (B)
   - updated `renderReviews` to dynamically limit displayed reviews and prevent termination when dataset is small. (B)
   - implemented baseBooks array and merged with user data in `loadFromLocalStorage()`. (B)
@@ -97,7 +97,7 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
 
 - 04.02.26
   - updated readme with additional stretch goals and other info (acceptance test checked off). (C)
-  - fixed `form` to include labels for accessibility considerations (lighthouse report, day one) and include context for 'blank' rating input; added styling to stack them vertically using ` ` through `#bookForm, #bookForm label` css; added elements to a `fieldset`. (A)
+  - fixed `form` to include labels for accessibility considerations (lighthouse report, day one) and include context for 'blank' rating input; added styling to stack them vertically using ` ` through `#book-form, #book-form label` css; added elements to a `fieldset`. (A)
   - light styling to `form` elements to make it more form-like through css grid. (B)
   - added missing reviews to `baseBooks` plus new entries. (B)
   - created `votingChart` branch. (A)
@@ -135,16 +135,26 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
 - 04.09.26
   - disabled voting functionality after round completion through `disableVoting()`. (B)
     - refactored to delete function; include functionality inside `handleVote()`. (A)
-  - added reset button to html; id's `votingControls`, `"resetVotes`, and `votingMessage`. (B)
+  - added reset button to html; id's `voting-controls`, `"reset-votes`, and `voting-message`. (B)
   - added conditional to `renderVoting()` as a safeguard for voting to ensure suficient entries to choose from. (B)
-  - modified way book entries are displayed in both, `renderVoting()` and `renderReviews()` as well as `bookCover` to account for uniform display of images. (B)
+  - modified way book entries are displayed in both, `renderVoting()` and `renderReviews()` as well as `book-cover` to account for uniform display of images. (B)
   - added event listener for `resetVoting` button. (B)
-  - replaced `alert()` in `handleVote()` to link it with DOM through `id=votingMessage` and simplified `disableVoting()` to avoid duplicate/redundant messages. (B)
+  - replaced `alert()` in `handleVote()` to link it with DOM through `id=voting-message` and simplified `disableVoting()` to avoid duplicate/redundant messages. (B)
   - created `showVotingMessage()` to facilitate text/message creation added to top of `renderVoting()` so it'll display an empty text content during voting sessions. (A)
-  - optimized chart to not render on page load, 'update'/render after each vote, and re-render on tab switch by 
+  - optimized chart to not render on page load, 'update'/render after each vote, and re-render on tab switch. (A)
   - added `resetVoting()` logic to reset counts for votes, views to 0. (B)
   - refactored `renderVoting()` to generate data after validation of state by switching location of `if` conditional loop and `currentVotingPair` variable. (A)
   - refactored to deleted `disableVoting()` and its invocation within `handleVote()`. (A)
+  - further refactor to `handleVote()` to avoid repeat DOM queries while displaying 'voting complete message' and for `voteCount` incrementation to avoid extra vote. (A)
+  - removed `renderChart();` on page load. (A)
+  - refactored styles.css for correct `review-card` class naming. (A)
+  - did further testing on image link section of form, turns it id did broke, reason it didnt last time was most likely to link source being wrong format. (A)
+  - include option in chart to force whole numbers and avoid chart.js autoscaling due to odd math. (A)
+  - refactored class naming conventions; camelCase vs kebab-case. (A)
+  - create `DOM` cache object for all queries throughout file to tighten up legibility. (A)
+  - fixed issue with reviews/book covers and voting choices not loading from reference error in `renderReviews()`. (A)
+  - added `currentVotingPair = []` to `resetVoting()`. (A)
+  - made `voting-container` a flex container, exoanded with `review-card`, `book-cover img` class appendage. (B)
   - 
 
 ## If I Had More Time / For Future Consideration

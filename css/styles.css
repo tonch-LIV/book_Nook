@@ -24,7 +24,7 @@ th, td {
   padding: 8px;
 }
 
-#reviewsContainer {
+#reviews-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
@@ -35,22 +35,22 @@ th, td {
   color: #555;
 }
 
-.reviewCard p {
+.review-card p {
   font-style: italic;
 }
 
-#bookForm { /* outer container */
+#book-form { /* outer container */
   max-width: 600px;
 }
 
-#bookForm label {
+#book-form label {
   font-weight: bold;
   margin-top: 10px;
   align-self: center;
 }
 
-#bookForm input,
-#bookForm textarea {
+#book-form input,
+#book-form textarea {
   width: 100%;
   box-sizing: border-box;
 }
@@ -64,7 +64,7 @@ label[for="review"] { /* targets review label */
   grid-column: 1 / -1; /* stretches element from first to last column*/
 }
 
-#bookForm button {
+#book-form button {
   grid-column: 1 / -1;
   margin-top: 10px;
   width: 100%;
@@ -99,12 +99,12 @@ legend {
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* .review-card img {
+.review-card img {
   width: 100%;
   height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
-} */
+}
 
 #tabs {
   display: flex;
@@ -134,18 +134,18 @@ legend {
   display: block;
 }
 
-.bookCover {
+.book-cover {
   position: relative;
   display: block;
 }
 
-.bookCover img {
+.book-cover img {
   width: 100%;
   border-radius: 6px;
 }
 
 /* two-tone for spine */
-.bookCover::before {
+.book-cover::before {
   content: '';
   position: absolute;
   left: 0;
@@ -154,4 +154,22 @@ legend {
   height: 100%;
   background: #3b5d3b;
   border-radius: 6px 0 0 6px;
+}
+
+#voting-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+#voting-container .review-card {
+  flex: 1;
+  max-width: 250px;
+  cursor: pointer;
+}
+
+#voting-container .book-cover img {
+  width: 100%;
+  object-fit: cover;
 }
