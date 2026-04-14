@@ -154,9 +154,18 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - create `DOM` cache object for all queries throughout file to tighten up legibility. (A)
   - fixed issue with reviews/book covers and voting choices not loading from reference error in `renderReviews()`. (A)
   - added `currentVotingPair = []` to `resetVoting()`. (A)
-  - made `voting-container` a flex container, expanded with `review-card`, `book-cover img` class appendage for added fine tuning. (B)
-    - chnaged to a grid container for simpler code, `.review-card` for cursor change. (A)
-    -
+  - made `#voting-container` a flex container, expanded with `review-card`, `book-cover img` class appendage for added fine tuning. (B)
+    - chnaged to a grid container for simpler code, `#review-card` for cursor change. (A)
+  - changed `#reviews-Container` to a grid as well, scaled size down as well to reduce amount user scrolls. (B)
+    - edited font-size and potentially weight (commented) on `.review-card` and `.review-card h3`. (B)
+  - added dimension constarints for `#chartSection` and `#results-chart`. (B)
+  - edited `renderReviews.card.innerHTML()` to incorporate card front/back fucntionality for reviews w/ `addEventListener()` and css for `.review-card` + `.card-front` and `.card-back`. (B)
+  - added divs for carousel in html(`reviews-carousel`, `prev-review`, and `next-review`), css (reverted from grid back to flex), jss (`addEventListener()`s). (B)
+  - match text styling in voting to reviews through `renderVoting()`. (B)
+  - commented out line to update chart live after each vote in `handleVote()` and added inside `if` conditional + updated tab logic `DOM.tabButtons.forEach()`. (B)
+  - applied custom font and color palette to site and element, classes. (B)
+  - deleted "placeholder, two-tone spine" class stylling of `.book-cover::before`. (A)
+  -
 
 ## If I Had More Time / For Future Consideration
 

@@ -35,7 +35,7 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
     text: review,
     date: new Date()
   };
-  this.image = image || 'https://dummyimage.com/150x220/3b5d3b/ede6d1&text=Book'; // for dynamic entries
+  this.image = image || 'https://via.placeholder.com/150x220?text=No+Cover'; // for dynamic entries
   this.votes = 0;
   this.views = 0;
 };
@@ -136,16 +136,25 @@ function renderReviews() {
 
       // placeholder plan
     card.innerHTML = `
-      ${book.image ? `
-        <div class="book-cover">
-          <img src="${book.image}" alt="${book.title}" />
-        </div>
-      ` : ''}
-      <h3>${book.title}</h3>
-      <p class="author">by ${book.author}</p>
-      <p>"${book.review?.text || "No review yet"}"</p>
-      <small>${date}</small>
+      <div class="card-front">
+        ${book.image ? `
+          <div class="book-cover">
+            <img src="${book.image}" alt="${book.title}" />
+          </div>
+        ` : ''}
+        <h3>${book.title}</h3>
+        <p class="author">by ${book.author}</p>
+      </div>
+
+      <div class-"card-back">
+        <p>"${book.review?.text || "No review yet"}"</p>
+        <small>${date}</small>
+      </div>
     `;
+
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
 
     container.appendChild(card);
   }
@@ -211,7 +220,7 @@ function renderVoting() {
         </div>
       ` : ''}
       <h3>${book.title}</h3>
-      <p>${book.author}</p>
+      <p class="author">${book.author}</p>
     `;
 
     card.addEventListener('click', () => {
@@ -229,6 +238,7 @@ function handleVote(selectedBook) {
     showVotingMessage('Voting Complete. Reset to start new round.');
 
     clearVotingUI();
+    renderChart();
     return;
   };
 
@@ -245,7 +255,7 @@ function handleVote(selectedBook) {
   // data persistance and new round
   saveToLocalStorage();
   renderVoting();
-  renderChart();    // live feedback on voting through chart updates
+  // renderChart();    // live feedback on voting through chart updates
 };
 
 //================
@@ -434,6 +444,20 @@ DOM.form.addEventListener('submit', function (e) {
 
 DOM.resetButton.addEventListener('click', resetVoting);
 
+//====================
+// reviews carousel  |
+//===================
+
+document.getElementById('next-review').addEventListener('click', () => {
+  reviewIndex = (reviewIndex + 1) % books.length;
+  renderReviews();
+});
+
+document.getElementById('prev-review').addEventListener('click', () => {
+  reviewIndex = (reviewIndex - 1 + books.length) % books.length;
+  renderReviews();
+});
+
 //=============================
 // tab functionality listener |
 //============================
@@ -458,7 +482,7 @@ DOM.tabButtons.forEach(button => {
     document.getElementById(target).classList.add('active');
 
     // only show chart on relevant tab
-    if (target === 'votingTab') {
+    if (target === 'votingTab' && voteCount >= maxVotes) {
       renderChart();
     };
   });
