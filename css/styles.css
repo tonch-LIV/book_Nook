@@ -49,16 +49,25 @@ th, td {
 
 #reviews-container {
   display: flex;
-  gap: 80px;
+  gap: 30px;
+  transition: transform .6s ease-in-out;
+  will-change: trasnsform;
+  width: fit-content; /* width constrain */
+}
+
+#reviews-viewport {
+  width: 1000px; /* increase this */
   overflow: hidden;
-  width: 900px; /* width constrain */
-  margin: 0 auto;   /* centers */
+  margin: 0 auto;
+  padding: 20px 0;
 }
 
 .author {
   font-weight: normal;
-  font-size: 0.9em;
-  color: #555;
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 10px;
+  opacity: 0.8;
 }
 
 #book-form { /* outer container */
@@ -109,33 +118,44 @@ legend {
 }
 
 .review-card {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 290px;  /* fixed width */
   font-size: 0.95rem;
-  padding: 12px;
+  padding: 10px;
+  margin: 20px 0;
   border: 1px solid #555;
   border-radius: 10px;
   background: var(--card);
-  position: relative;
+  color: var(--text);
   cursor: pointer;
-  perspective: 1000px;
-  min-width: 100%;
+
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s, box-shadow .3 ease;
+
+  height: 480px;
+  overflow: hidden;
+  min-width: calc(100% / 3 - 20px); /* three visible */
+}
+
+.review-card.flipped {
+  transform: rotateY(180)
 }
 
 .card-front,
 .card-back {
-  transition: transform .4s ease;
+  position: absolute;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
   backface-visibility: hidden;
+  top: 0;
+  left: 0;
 }
 
 .card-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transform: rotateY('180deg')
-}
-
-.review-card.flipped .card-back {
-  transform: rotateY('0')
+  transform: rotateY(180deg)
 }
 
 .review-card p {
@@ -149,6 +169,7 @@ legend {
 }
 
 .review-card:hover {
+  transform: scale(1.03);
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
@@ -194,7 +215,17 @@ legend {
 
 .book-cover img {
   width: 100%;
-  border-radius: 6px;
+  height: auto;
+  display: block;
+  margin-bottom: 9px;
+  border-radius: 8px;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 12px;
+  margin-bottom: 6px;
 }
 
 #voting-container {
@@ -206,7 +237,21 @@ legend {
 }
 
 #voting-container .review-card {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 420px;
   cursor: pointer;
+}
+
+#voting-container .book-cover img {
+  max-height: 560px;
+  object-fit: cover;
+}
+
+#voting-container .review-card:hover {
+  transform: scale(1.05);
 }
 
 #chartSection {

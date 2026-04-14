@@ -165,7 +165,17 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - commented out line to update chart live after each vote in `handleVote()` and added inside `if` conditional + updated tab logic `DOM.tabButtons.forEach()`. (B)
   - applied custom font and color palette to site and element, classes. (B)
   - deleted "placeholder, two-tone spine" class stylling of `.book-cover::before`. (A)
-  -
+  - modified placeholder image rendering for entries w/ no image link submission. (B)
+  - created css variables for colors (`--bg`, `--color`, `--accent`, `--text`). (B)
+  - added `#reviews-viewport` to html to nest reviews within container. (B)
+  - tuned css styling for `#reviews-container`, `.author`, `.review-card`, `.review-card.flipped`, `.card-front, .card-back`, `.card-back`, `.review-card:hover`, `.book-cover img`, `.book-title`, `#voting-container .review-card`, `#voting-container .book-cover img`, and `#voting-container .review-card:hover`. (A)
+  - added global variable `currentOffset()` in js for carousel, review buttons, and timer. (B)
+  - added `reviewsTrack` to DOM cache construcor for... . (B)
+  - overhauled `renderReviews()`. (A)
+  - added `updateCarousel()` for sliding animation. (B)
+  - modified `renderVoting()` for `card.innerHTML`. (B)
+  - modified `addEventListener`s for reviews carousel buttons and `setInterval()`. (B)
+  - 
 
 ## If I Had More Time / For Future Consideration
 

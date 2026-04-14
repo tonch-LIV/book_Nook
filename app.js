@@ -18,6 +18,9 @@ let maxVotes = 0;
 // stores currently displayed choices
 let currentVotingPair = [];
 
+// sliding animation for reviews
+let currentOffset = 0;
+
 //===================================
 // constructor for new books added  |
 //==================================
@@ -35,7 +38,7 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
     text: review,
     date: new Date()
   };
-  this.image = image || 'https://via.placeholder.com/150x220?text=No+Cover'; // for dynamic entries
+  this.image = image || 'img/default-placeholder.jpg'; // for dynamic entries w/ no images
   this.votes = 0;
   this.views = 0;
 };
@@ -74,7 +77,8 @@ const DOM = {
   form: document.getElementById('book-form'),
   resetButton: document.getElementById('reset-votes'),
   tabButtons: document.querySelectorAll('#tabs button'),
-  tabs: document.querySelectorAll('.tab')
+  tabs: document.querySelectorAll('.tab'),
+  reviewsTrack: document.getElementById('reviews-track'),
 };
 
 //=========
@@ -106,47 +110,33 @@ function renderTable() {
 //==========
 
 function renderReviews() {
-  const container = DOM.reviewsContainer;
+  const track = DOM.reviewsContainer;
+  track.innerHTML = '';
 
   // sorting; ensures entries stay in original order, baseBooks first
   const sortedBooks = [...books].sort(
-  (a, b) => new Date(b.review.date) - new Date(a.review.date)
-);
+    (a, b) => new Date(b.review.date) - new Date(a.review.date)
+  );
+  
     // guard
-  if (sortedBooks.length === 0) return;
-
-  container.innerHTML = '';
-
-  // ensures three reviews show up
-  const displayCount = Math.min(3, sortedBooks.length);
-
-  for (let i = 0; i < displayCount; i++) {
-    const book = sortedBooks[(reviewIndex + i) % sortedBooks.length];
-
-    // continues if less than two books to choose from
-    if (!book) continue;
-
+  sortedBooks.forEach(book => {
     const card = document.createElement('div');
     card.classList.add('review-card');
 
-    // protects from error and crashing if `book.review` and `date` is missing
     const date = book.review?.date
       ? new Date(book.review.date).toLocaleDateString()
       : '';
 
-      // placeholder plan
     card.innerHTML = `
       <div class="card-front">
-        ${book.image ? `
-          <div class="book-cover">
-            <img src="${book.image}" alt="${book.title}" />
-          </div>
-        ` : ''}
+        <div class="book-cover">       
+          <img src="${book.image || 'img/default-placeholder.jpg'}" alt="${book.title}" />
+        </div>
         <h3>${book.title}</h3>
         <p class="author">by ${book.author}</p>
       </div>
 
-      <div class-"card-back">
+      <div class="card-back">
         <p>"${book.review?.text || "No review yet"}"</p>
         <small>${date}</small>
       </div>
@@ -156,8 +146,19 @@ function renderReviews() {
       card.classList.toggle('flipped');
     });
 
-    container.appendChild(card);
-  }
+    card.classList.remove('flipped');
+
+    track.appendChild(card);
+  });
+};
+
+//===================
+// slide animation  |
+//==================
+
+function updateCarousel() {
+  const cardWidth = 340; // card + gap
+  DOM.reviewsContainer.style.transform = `translateX(-${currentOffset * cardWidth}px)`;
 };
 
 //==========
@@ -214,13 +215,14 @@ function renderVoting() {
 
     //placeholder image
     card.innerHTML = `
-      ${book.image ? `
-        <div class = "book-cover">
-          <img src="${book.image}" alt="${book.title}" />
+      <div class="card-front">
+        <div class="book-cover">
+          <img src="${book.image || 'img/default-placeholder.jpg'}" alt="${book.title}" />
         </div>
-      ` : ''}
-      <h3>${book.title}</h3>
-      <p class="author">${book.author}</p>
+
+        <h3 class="book-title">${book.title}</h3>
+        <p class="author">${book.author}</p>
+      <div>
     `;
 
     card.addEventListener('click', () => {
@@ -444,18 +446,22 @@ DOM.form.addEventListener('submit', function (e) {
 
 DOM.resetButton.addEventListener('click', resetVoting);
 
-//====================
-// reviews carousel  |
-//===================
+//===========================
+// reviews carousel buttons |
+//==========================
 
 document.getElementById('next-review').addEventListener('click', () => {
-  reviewIndex = (reviewIndex + 1) % books.length;
-  renderReviews();
+  if (currentOffset < books.length - 2) {
+  currentOffset++;
+  updateCarousel();
+  }
 });
 
 document.getElementById('prev-review').addEventListener('click', () => {
-  reviewIndex = (reviewIndex - 1 + books.length) % books.length;
-  renderReviews();
+  if (currentOffset > 0) {
+  currentOffset--;
+  updateCarousel();
+  }
 });
 
 //=============================
@@ -495,10 +501,10 @@ DOM.tabButtons.forEach(button => {
 loadFromLocalStorage();
 renderVoting();
 
-// timer
+// // timer
 setInterval(() => {
-  if (books.length > 0) {
-    reviewIndex = (reviewIndex + 1) % books.length;
-    renderReviews();
+  if (books.length > 2) {
+    currentOffset = (currentOffset + 1) % (books.length - 1);
+    updateCarousel();
   }
-}, 4000);
+}, 6000);
