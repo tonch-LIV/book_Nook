@@ -157,19 +157,13 @@ legend {
 }
 
 #voting-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  justify-content: center;
-  align-items: stretch;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 #voting-container .review-card {
-  flex: 1;
-  max-width: 250px;
   cursor: pointer;
-}
-
-#voting-container .book-cover img {
-  width: 100%;
-  object-fit: cover;
 }

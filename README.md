@@ -154,8 +154,9 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - create `DOM` cache object for all queries throughout file to tighten up legibility. (A)
   - fixed issue with reviews/book covers and voting choices not loading from reference error in `renderReviews()`. (A)
   - added `currentVotingPair = []` to `resetVoting()`. (A)
-  - made `voting-container` a flex container, exoanded with `review-card`, `book-cover img` class appendage. (B)
-  - 
+  - made `voting-container` a flex container, expanded with `review-card`, `book-cover img` class appendage for added fine tuning. (B)
+    - chnaged to a grid container for simpler code, `.review-card` for cursor change. (A)
+    -
 
 ## If I Had More Time / For Future Consideration
 
