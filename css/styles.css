@@ -1,56 +1,141 @@
+:root {
+  --bg: #2b2b2b;
+  --card: #3a3a3a;
+  --accent: #c2a878;
+  --text: #f1f1f1;
+}
+
 body {
-  font-family: sans-serif;
   padding: 20px;
+  background: var(--bg);
+  color: var(--text);
+
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 3rem;
+  letter-spacing: 3px;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+p, td, input, textarea {
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.side-image {
+  position: fixed;
+  top: 0;
+  width: 420px;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  /* opacity: 0.25; */
+  z-index: -1;
+}
+
+.side-image.left {
+  left: 0;
+  background-image: url('../img/Library-Burgundy-left.jpg');
+}
+
+.side-image.right {
+  right: 0;
+  background-image: url('../img/Library-Burgundy-left.jpg');
 }
 
 main {
   display: grid;
   gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 40px;
-  background: #eee; /* replace later with bookshelf image */
+  text-align: center;
+  padding: 80px 10px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+
+  background: url('../img/abinash-jothimani-heading.jpg') center/cover no-repeat;
+  position: relative;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(126, 4, 4, 0.526);
+  border-radius: 20px;
+}
+
+header h1 {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  font-size: xx-large;
 }
 
 table {
   width: 100%;
   margin: 20px 0;
+  border-collapse: collapse;
 }
 
 th, td {
   border: 1px solid black;
-  padding: 8px;
+  padding: 12px 14px;
 }
 
-#reviewsContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+#reviews-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#reviews-container {
+  display: flex;
+  gap: 30px;
+  transition: transform .8s cubic-bezier(.22, 1, .36, 1);
+  will-change: transform;
+  width: fit-content; /* width constrain */
+}
+
+#reviews-viewport {
+  width: 1000px; /* increase this */
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 20px 0;
 }
 
 .author {
   font-weight: normal;
-  font-size: 0.9em;
-  color: #555;
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  opacity: 0.8;
 }
 
-.review-card p {
-  font-style: italic;
-}
-
-#bookForm { /* outer container */
-  max-width: 600px;
-}
-
-#bookForm label {
+#book-form label {
   font-weight: bold;
   margin-top: 10px;
   align-self: center;
 }
 
-#bookForm input,
-#bookForm textarea {
+#book-form input,
+#book-form textarea {
   width: 100%;
   box-sizing: border-box;
 }
@@ -64,7 +149,7 @@ label[for="review"] { /* targets review label */
   grid-column: 1 / -1; /* stretches element from first to last column*/
 }
 
-#bookForm button {
+#book-form button {
   grid-column: 1 / -1;
   margin-top: 10px;
   width: 100%;
@@ -87,11 +172,69 @@ legend {
 }
 
 .review-card {
-  padding: 15px;
-  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 290px;  /* fixed width */
+  justify-content: flex-start;
+  font-size: 0.95rem;
+  padding: 10px;
+  margin: 20px 0;
+  border: 1px solid #555;
   border-radius: 10px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background: white;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s, box-shadow .3 ease;
+
+  height: auto;
+  min-height: 500px;
+  overflow: visible;
+  min-width: calc(100% / 3 - 20px); /* three visible */
+}
+
+.review-card.flipped {
+  transform: rotateY(180)
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  padding: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  backface-visibility: hidden;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 2;
+}
+
+.card-back {
+  z-index: 1;
+  transform: rotateY(180deg);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.review-card p {
+  font-style: italic;
+  /* font-weight: 500; */
+}
+
+.review-card h3 {
+  font-size: 1.05rem;
+  /* font-weight: 600; */
 }
 
 .review-card:hover {
@@ -99,12 +242,14 @@ legend {
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* .review-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
-} */
+.review-card.flipped .card-front {
+  pointer-events: none;
+}
+
+.review-card.flipped .card-back {
+  pointer-events: none;
+}
+
 
 #tabs {
   display: flex;
@@ -122,8 +267,8 @@ legend {
 }
 
 #tabs button.active {
-  background: #333;
-  color: white;
+  background: var(--accent);
+  color: #1f1f1f;
 }
 
 .tab {
@@ -132,4 +277,133 @@ legend {
 
 .tab.active {
   display: block;
+}
+
+.book-cover {
+  position: relative;
+  display: block;
+}
+
+.book-cover img {
+  width: 100%;
+  height: 380px;
+  display: block;
+  margin-bottom: 9px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #2b2b2b;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+#voting-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 80px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#voting-container .review-card {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: auto;
+  min-height: 460px;
+  cursor: pointer;
+}
+
+#voting-container .book-cover img {
+  height: 370px;
+  object-fit: contain;
+}
+
+#voting-container .review-card:hover {
+  transform: scale(1.05);
+}
+
+#chartSection {
+  max-width: 75%; /*overall size */
+  margin: 0 auto;
+}
+
+#results-chart {
+  width: 100% !important;
+  height: 600px !important; 
+}
+
+#tableSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+}
+
+#formSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  max-width: 700px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  justify-content: center;
+  
+  background:
+    linear-gradient(rgba(126,4,4,.6), rgba(126,4,4,.6)),
+    url('../img/daniel-forsman-form.jpg') center/cover no-repeat;
+}
+
+#reviewsSection,
+#votingSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  max-width: 1100px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+
+  background:
+    linear-gradient(rgba(126,4,4,.6), rgba(126,4,4,.6)),
+    url('../img/pierre-bamin-choice.jpg') center/cover no-repeat;
+}
+
+#chartSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  /* max-width: 900px; */
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+
+  background:
+    linear-gradient(rgba(126, 4, 4, 0.715), rgba(126, 4, 4, 0.71)),
+    url('../img/jez-timms-vTKLujPJecw-unsplash.jpg') center/cover no-repeat;
+
+  border-radius: 50px;
+}
+
+#reviewsSection,
+#votingSection {
+  padding: 15px;
+}
+
+#book-form {
+  width: 100%;
+  max-width: 500px;
 }

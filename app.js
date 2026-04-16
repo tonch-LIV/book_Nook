@@ -15,6 +15,16 @@ let chartInstance = null;
 let voteCount = 0;
 let maxVotes = 0; 
 
+// stores currently displayed choices
+let currentVotingPair = [];
+
+// sliding animation for reviews
+let currentOffset = 0;
+
+// carousel display 
+
+const visibleCards = 3;
+
 //===================================
 // constructor for new books added  |
 //==================================
@@ -32,7 +42,7 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
     text: review,
     date: new Date()
   };
-  this.image = image || 'https://dummyimage.com/150x220/3b5d3b/ede6d1&text=Book'; // for dynamic entries
+  this.image = image || '../img/default-placeholder.jpg'; // for dynamic entries w/ no images
   this.votes = 0;
   this.views = 0;
 };
@@ -58,12 +68,29 @@ const baseBooks = [
   
 ];
 
+//=================================
+// DOM cache for query selection  |
+//================================
+
+const DOM = {
+  tableBody: document.querySelector('#book-table tbody'),
+  reviewsContainer: document.getElementById('reviews-container'),
+  votingContainer: document.getElementById('voting-container'),
+  votingMessage: document.getElementById('voting-message'),
+  resultsChart: document.getElementById('results-chart'),
+  form: document.getElementById('book-form'),
+  resetButton: document.getElementById('reset-votes'),
+  tabButtons: document.querySelectorAll('#tabs button'),
+  tabs: document.querySelectorAll('.tab'),
+  reviewsTrack: document.getElementById('reviews-track'),
+};
+
 //=========
 // table  |
 //========
 
 function renderTable() {
-  const tbody = document.querySelector('#bookTable tbody');
+  const tbody = DOM.tableBody;
   tbody.innerHTML = '';
 
   for (let book of books) {
@@ -87,49 +114,65 @@ function renderTable() {
 //==========
 
 function renderReviews() {
-  const container = document.getElementById('reviewsContainer');
+  const track = DOM.reviewsContainer;
+  track.innerHTML = '';
 
   // sorting; ensures entries stay in original order, baseBooks first
   const sortedBooks = [...books].sort(
-  (a, b) => new Date(b.review.date) - new Date(a.review.date)
-);
-  container.innerHTML = '';
-
-  // ensures three reviews show up
-  const displayCount = Math.min(3, sortedBooks.length);
-
-  for (let i = 0; i < displayCount; i++) {
-    const book = sortedBooks[(reviewIndex + i) % sortedBooks.length];
-
-    // continues if less than two books to choose from
-    if (!book) continue;
-
+    (a, b) => new Date(b.review.date) - new Date(a.review.date)
+  );
+  
+    // guard
+  sortedBooks.forEach(book => {
     const card = document.createElement('div');
     card.classList.add('review-card');
 
-    // protects from error and crashing if `book.review` and `date` is missing
     const date = book.review?.date
       ? new Date(book.review.date).toLocaleDateString()
       : '';
 
     card.innerHTML = `
-      ${book.image ? `<img src="${book.image}" alt="${book.title}" />` : ''}
-      <h3>${book.title}</h3>
-      <p class="author">by ${book.author}</p>
-      <p>"${book.review?.text || "No review yet"}"</p>
-      <small>${date}</small>
+      <div class="card-front">
+        <div class="book-cover">       
+          <img src="${book.image || 'img/default-placeholder.jpg'}" alt="${book.title}" />
+        </div>
+        <h3>${book.title}</h3>
+        <p class="author">by ${book.author}</p>
+      </div>
+
+      <div class="card-back">
+        <p>"${book.review?.text || "No review yet"}"</p>
+        <small>${date}</small>
+      </div>
     `;
 
-    container.appendChild(card);
-  }
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+
+    card.classList.remove('flipped');
+
+    track.appendChild(card);
+  });
+};
+
+//===================
+// slide animation  |
+//==================
+
+function updateCarousel() {
+  const firstCard = document.querySelector('.review-card');
+  if (!firstCard) return;
+
+  const gap = 30; // match css
+  const cardWidth = firstCard.offsetWidth + gap; // card + gap
+
+  DOM.reviewsContainer.style.transform = `translateX(-${currentOffset * cardWidth}px)`;
 };
 
 //==========
 // voting  |
 //=========
-
-// stores currently displayed choices
-let currentPair = [];
 
 function getRandomBooks() {
   if (books.length < 2) return [];
@@ -146,25 +189,51 @@ function getRandomBooks() {
   return [books[index1], books[index2]];
 };
 
-function renderVoting() {
-  const container = document.getElementById('votingContainer');
-  container.innerHTML = ''; // clear
+//======================
+// helper DOM queries  |
+//===================== 
 
-  // stores function to get 2 random choices in a variable
-  currentPair = getRandomBooks();
+function showVotingMessage(message) {
+  DOM.votingMessage.textContent = message;
+};
+
+function clearVotingUI() {
+  const container = DOM.votingContainer;
+  container.innerHTML = '';
+};
+
+function renderVoting() {
+  const container = DOM.votingContainer;
+  
+  showVotingMessage('');
+  clearVotingUI();
+
+  // validates state / voting requires min 2 entries
+  if (books.length < 2) {
+    showVotingMessage('Add more entries to the table to be able to vote.');
+    return;
+  };
+
+  // generates data; stores function to get 2 random choices in variable 
+  currentVotingPair = getRandomBooks();
 
   // creates clickable cards during votes
-  currentPair.forEach(book => {
+  currentVotingPair.forEach(book => {
     const card = document.createElement('div');
     card.classList.add('review-card');
 
+    //placeholder image
     card.innerHTML = `
-      ${book.image ? `<img src="${book.image}" alt="${book.title}" />` : ''}
-      <h3>${book.title}</h3>
-      <p>${book.author}</p>
+      <div class="card-front">
+        <div class="book-cover">
+          <img src="${book.image || 'img/default-placeholder.jpg'}" alt="${book.title}" />
+        </div>
+
+        <h3 class="book-title">${book.title}</h3>
+        <p class="author">${book.author}</p>
+      <div>
     `;
 
-    // click = vote
     card.addEventListener('click', () => {
       handleVote(book);
     });
@@ -175,16 +244,19 @@ function renderVoting() {
 
 function handleVote(selectedBook) {
 
-  // compares figures; `===` fragile per rendering/voting speed
+  // compares figures
   if (voteCount >= maxVotes) {
-    alert('Voting Round Complete!');
+    showVotingMessage('Voting Complete. Reset to start new round.');
+
+    clearVotingUI();
+    renderChart();
     return;
-  }
+  };
 
   voteCount++;
 
   // increments views tally for both; safe syntax to avoid NaN
-  currentPair.forEach(book => {
+  currentVotingPair.forEach(book => {
     book.views = (book.views || 0) + 1;
   });
 
@@ -194,7 +266,28 @@ function handleVote(selectedBook) {
   // data persistance and new round
   saveToLocalStorage();
   renderVoting();
-  renderChart();    // live feedback on voting through chart updates
+  // renderChart();    // live feedback on voting through chart updates
+};
+
+//================
+// voting reset  |
+//===============
+
+function resetVoting() {
+  voteCount = 0;
+
+  books.forEach(book => {
+    book.votes = 0;
+    book.views = 0;
+  });
+
+  currentVotingPair = [];
+  saveToLocalStorage(); //  always persist state
+  
+  renderVoting();
+  renderChart();
+
+  showVotingMessage('');
 };
 
 //=========
@@ -202,7 +295,7 @@ function handleVote(selectedBook) {
 //========
 
 function renderChart() {
-  const ctx = document.getElementById('resultsChart');
+  const ctx = DOM.resultsChart.getContext('2d');
 
   // destroy previous/existing chart, if any
   if (chartInstance) {
@@ -211,15 +304,8 @@ function renderChart() {
 
   // prep data
   // x-axis, book names, .split accounts for long titles; divides in half, stacks vert
-  const labels = books.map(book => {
-    const words = book.title.split(' ');
-    const mid = Math.ceil(words.length / 2);
+  const labels = books.map(book => book.title);
 
-    return [
-      words.slice(0, mid).join(' '),
-      words.slice(mid).join(' ')
-    ];
-  });
   const votes = books.map(book => book.votes || 0);   //y-axis, vote count
   const views = books.map(book => book.views || 0);   // for second
 
@@ -232,46 +318,72 @@ function renderChart() {
           type: 'bar',
           label: 'Votes',
           data: votes,
-          yAxisID: 'y'
+          yAxisID: 'y',
+          backgroundColor: 'rgba(14, 11, 236, 0.56)',  // semi-transparent
+          order: 2
         },
         {
           type: 'line',
           label: 'Views',
           data: views,
-          yAxisID: 'y1'
+          borderColor: 'rgba(26, 190, 11, 0.5)',
+          borderWidth: 2,
+          // tension: 0.3,
+          pointBackgroundColor: '#ffffff',
+          order: 0, // layer line up top
+          yAxisID: 'y1' //  change to just 'y' to view single y axis
         }
       ]
     },
     options: {
+      indexAxis: 'y',
       responsive: true,
       plugins: {
         legend: {
+          labels: {
+            color: '#f1f1f1',
+            font: {
+              size: 18,
+              weight: 'bold'
+            }
+          },
           display: true
         }
       },
       scales: {
+        x: {
+          beginsAtZero: true,
+          title: {
+            display: true,
+            text: 'Votes',
+            color: '#f1f1f1'
+          },
+          ticks: {
+            color: '#f1f1f1',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          }
+        },
         y: {  // bars
           beginAtZero: true,
           position: 'left',
           title: {
             display: true,
-            text: 'Votes'
-          }
-        },
-        y1: {  //line
-          beginAtZero: true,
-          position: 'right',
-          grid: {
-            drawOnChartArea: false
-          },
-          title: {
-            display: true,
-            text: 'Views'
+            text: 'Books',
+            color: '#f1f1f1'
           },
           ticks: {
-            stepSize: 1
+            stepSize: 1,
+            precision: 0,
+            color: '#f1f1f1',
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
           }
-        }
+        },
       }
     }
   });
@@ -316,20 +428,19 @@ function loadFromLocalStorage() {
   // combine base + user books
   books = [...baseBooks, ...userBooks];
 
-  // voting varies on length of entries
-  maxVotes = Math.floor(books.length * 2.5);
+  // voting varies on length of entries; happens after `books` exists
+  maxVotes = Math.floor(books.length * 1.5);
 
   renderTable();
   renderReviews();
 };
 
+//  after DOM is loaded and available, event listeners
 //=======================
 // form event listener  |
 //======================
 
-const form = document.getElementById('bookForm');
-
-form.addEventListener('submit', function (e) {
+DOM.form.addEventListener('submit', function (e) {
   e.preventDefault();
 
   const newBook = new Book(
@@ -349,29 +460,46 @@ form.addEventListener('submit', function (e) {
   renderReviews();
   saveToLocalStorage();
 
-  form.reset(); // UX bonus
+  DOM.form.reset();
 });
 
-//====================
-// tab functionality |
-//====================
+//=========================
+// button event listener  |
+//========================
 
-// grabs buttons 'library' and 'voting'
-const tabButtons = document.querySelectorAll('#tabs button');
+DOM.resetButton.addEventListener('click', resetVoting);
+
+//===========================
+// reviews carousel buttons |
+//==========================
+
+document.getElementById('next-review').addEventListener('click', () => {
+  currentOffset = (currentOffset + 1) % books.length;
+  updateCarousel();
+});
+
+document.getElementById('prev-review').addEventListener('click', () => {
+  currentOffset = (currentOffset - 1 + books.length) % books.length;
+  updateCarousel();
+});
+
+//=============================
+// tab functionality listener |
+//============================
 
 // loops through buttons and applies behavior after 'click'
-tabButtons.forEach(button => {
+DOM.tabButtons.forEach(button => {
   button.addEventListener('click', () => {
     const target = button.dataset.tab; //tied to button data-tab
 
     // remove active class from all buttons
-    tabButtons.forEach(btn => btn.classList.remove('active'));
+    DOM.tabButtons.forEach(btn => btn.classList.remove('active'));
 
     // add active class to clicked button; highlights
     button.classList.add('active');
 
     // hide all tab content
-    document.querySelectorAll('.tab').forEach(tab => {
+    DOM.tabs.forEach(tab => {
       tab.classList.remove('active');
     });
 
@@ -379,7 +507,7 @@ tabButtons.forEach(button => {
     document.getElementById(target).classList.add('active');
 
     // only show chart on relevant tab
-    if (target === 'votingTab') {
+    if (target === 'votingTab' && voteCount >= maxVotes) {
       renderChart();
     };
   });
@@ -391,12 +519,11 @@ tabButtons.forEach(button => {
 
 loadFromLocalStorage();
 renderVoting();
-renderChart();
 
-// timer
+// // timer
 setInterval(() => {
-  if (books.length > 0) {
-    reviewIndex = (reviewIndex + 1) % books.length;
-    renderReviews();
+  if (books.length > visibleCards) {
+    currentOffset = (currentOffset + 1) % (books.length - visibleCards + 1);
+    updateCarousel();
   }
-}, 4000);
+}, 6000);
