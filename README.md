@@ -175,7 +175,12 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - added `updateCarousel()` for sliding animation. (B)
   - modified `renderVoting()` for `card.innerHTML`. (B)
   - modified `addEventListener`s for reviews carousel buttons and `setInterval()`. (B)
-  - 
+  - added images, divs, and css for fixed full height side images (`.side-image` left and right). (B)
+  - new font selection. (A)
+  - added fixed background side images. (B)
+  - plenty of css styling fixes and modifications. (B)
+  - as well as js work done on carousel, chart, review buttons. (B)
+  - added background images to use throughout site in areas like reviews, form, voting and chart. (B)
 
 ## If I Had More Time / For Future Consideration
 
@@ -183,3 +188,6 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
 - allow (controlled) editing of table for genres and/or entry deletion.
 - voting is persistent on refresh atm, but maybe keep a dataset of most popular and compare to sales numbers.
 - link entries to sourcing links (library, amazon/kindle, etc.) so user may buy (affiliate link?).
+- for the book title and author name to display in the placeholder image.
+- fix the animation of the carousel; bit by bit the edges encroah and begin to cut the image.
+- make the review images in the carousel loop rather than reset.

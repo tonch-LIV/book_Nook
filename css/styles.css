@@ -5,39 +5,96 @@
   --text: #f1f1f1;
 }
 
-h1, h2, h3 {
-  font-family: 'Cormorant Garamond', serif;
-}
-
 body {
-  font-family: 'Source Sans 3', sans-serif;
   padding: 20px;
   background: var(--bg);
   color: var(--text);
+
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 3rem;
+  letter-spacing: 3px;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+p, td, input, textarea {
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.side-image {
+  position: fixed;
+  top: 0;
+  width: 420px;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  /* opacity: 0.25; */
+  z-index: -1;
+}
+
+.side-image.left {
+  left: 0;
+  background-image: url('../img/Library-Burgundy-left.jpg');
+}
+
+.side-image.right {
+  right: 0;
+  background-image: url('../img/Library-Burgundy-left.jpg');
 }
 
 main {
   display: grid;
   gap: 40px;
-  max-width: 80%;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
 header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 40px;
-  background: #1f1f1f; /* replace later with bookshelf image */
-  color: var(--accent);
+  text-align: center;
+  padding: 80px 10px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+
+  background: url('../img/abinash-jothimani-heading.jpg') center/cover no-repeat;
+  position: relative;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(126, 4, 4, 0.526);
+  border-radius: 20px;
+}
+
+header h1 {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  font-size: xx-large;
 }
 
 table {
   width: 100%;
   margin: 20px 0;
+  border-collapse: collapse;
 }
 
 th, td {
   border: 1px solid black;
-  padding: 8px;
+  padding: 12px 14px;
 }
 
 #reviews-carousel {
@@ -50,8 +107,8 @@ th, td {
 #reviews-container {
   display: flex;
   gap: 30px;
-  transition: transform .6s ease-in-out;
-  will-change: trasnsform;
+  transition: transform .8s cubic-bezier(.22, 1, .36, 1);
+  will-change: transform;
   width: fit-content; /* width constrain */
 }
 
@@ -66,12 +123,9 @@ th, td {
   font-weight: normal;
   font-size: 0.9rem;
   color: #aaa;
-  margin-bottom: 10px;
+  margin-top: 4px;
+  margin-bottom: 12px;
   opacity: 0.8;
-}
-
-#book-form { /* outer container */
-  max-width: 600px;
 }
 
 #book-form label {
@@ -121,6 +175,7 @@ legend {
   display: flex;
   flex-direction: column;
   flex: 0 0 290px;  /* fixed width */
+  justify-content: flex-start;
   font-size: 0.95rem;
   padding: 10px;
   margin: 20px 0;
@@ -134,8 +189,9 @@ legend {
   transform-style: preserve-3d;
   transition: transform 0.3s, box-shadow .3 ease;
 
-  height: 480px;
-  overflow: hidden;
+  height: auto;
+  min-height: 500px;
+  overflow: visible;
   min-width: calc(100% / 3 - 20px); /* three visible */
 }
 
@@ -146,16 +202,29 @@ legend {
 .card-front,
 .card-back {
   position: absolute;
-  padding: 10px;
+  inset: 0;
+  padding: 12px;
   box-sizing: border-box;
   width: 100%;
   backface-visibility: hidden;
-  top: 0;
-  left: 0;
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 2;
 }
 
 .card-back {
-  transform: rotateY(180deg)
+  z-index: 1;
+  transform: rotateY(180deg);
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .review-card p {
@@ -173,12 +242,14 @@ legend {
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-.review-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
+.review-card.flipped .card-front {
+  pointer-events: none;
 }
+
+.review-card.flipped .card-back {
+  pointer-events: none;
+}
+
 
 #tabs {
   display: flex;
@@ -215,17 +286,20 @@ legend {
 
 .book-cover img {
   width: 100%;
-  height: auto;
+  height: 380px;
   display: block;
   margin-bottom: 9px;
   border-radius: 8px;
+  object-fit: contain;
+  background: #2b2b2b;
 }
 
 .book-title {
   font-size: 1.1rem;
   font-weight: 500;
-  margin-top: 12px;
+  margin-top: 10px;
   margin-bottom: 6px;
+  line-height: 1.3;
 }
 
 #voting-container {
@@ -241,13 +315,14 @@ legend {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 420px;
+  height: auto;
+  min-height: 460px;
   cursor: pointer;
 }
 
 #voting-container .book-cover img {
-  max-height: 560px;
-  object-fit: cover;
+  height: 370px;
+  object-fit: contain;
 }
 
 #voting-container .review-card:hover {
@@ -262,4 +337,73 @@ legend {
 #results-chart {
   width: 100% !important;
   height: 600px !important; 
+}
+
+#tableSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+}
+
+#formSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  max-width: 700px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  justify-content: center;
+  
+  background:
+    linear-gradient(rgba(126,4,4,.6), rgba(126,4,4,.6)),
+    url('../img/daniel-forsman-form.jpg') center/cover no-repeat;
+}
+
+#reviewsSection,
+#votingSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  max-width: 1100px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+
+  background:
+    linear-gradient(rgba(126,4,4,.6), rgba(126,4,4,.6)),
+    url('../img/pierre-bamin-choice.jpg') center/cover no-repeat;
+}
+
+#chartSection {
+  background: rgba(126, 4, 4, 0.418);
+  border-radius: 50px;
+  padding: 18px 20px;
+  margin: 0 auto;
+  /* max-width: 900px; */
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px);
+
+  background:
+    linear-gradient(rgba(126, 4, 4, 0.715), rgba(126, 4, 4, 0.71)),
+    url('../img/jez-timms-vTKLujPJecw-unsplash.jpg') center/cover no-repeat;
+
+  border-radius: 50px;
+}
+
+#reviewsSection,
+#votingSection {
+  padding: 15px;
+}
+
+#book-form {
+  width: 100%;
+  max-width: 500px;
 }

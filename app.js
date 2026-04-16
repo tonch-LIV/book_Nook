@@ -21,6 +21,10 @@ let currentVotingPair = [];
 // sliding animation for reviews
 let currentOffset = 0;
 
+// carousel display 
+
+const visibleCards = 3;
+
 //===================================
 // constructor for new books added  |
 //==================================
@@ -38,7 +42,7 @@ function Book(author, title, genre, pages, rating, addedBy, review, image) {
     text: review,
     date: new Date()
   };
-  this.image = image || 'img/default-placeholder.jpg'; // for dynamic entries w/ no images
+  this.image = image || '../img/default-placeholder.jpg'; // for dynamic entries w/ no images
   this.votes = 0;
   this.views = 0;
 };
@@ -157,7 +161,12 @@ function renderReviews() {
 //==================
 
 function updateCarousel() {
-  const cardWidth = 340; // card + gap
+  const firstCard = document.querySelector('.review-card');
+  if (!firstCard) return;
+
+  const gap = 30; // match css
+  const cardWidth = firstCard.offsetWidth + gap; // card + gap
+
   DOM.reviewsContainer.style.transform = `translateX(-${currentOffset * cardWidth}px)`;
 };
 
@@ -295,15 +304,7 @@ function renderChart() {
 
   // prep data
   // x-axis, book names, .split accounts for long titles; divides in half, stacks vert
-  const labels = books.map(book => {
-    const words = book.title.split(' ');
-    const mid = Math.ceil(words.length / 2);
-
-    return [
-      words.slice(0, mid).join(' '),
-      words.slice(mid).join(' ')
-    ];
-  });
+  const labels = books.map(book => book.title);
 
   const votes = books.map(book => book.votes || 0);   //y-axis, vote count
   const views = books.map(book => book.views || 0);   // for second
@@ -317,50 +318,72 @@ function renderChart() {
           type: 'bar',
           label: 'Votes',
           data: votes,
-          yAxisID: 'y'
+          yAxisID: 'y',
+          backgroundColor: 'rgba(14, 11, 236, 0.56)',  // semi-transparent
+          order: 2
         },
         {
           type: 'line',
           label: 'Views',
           data: views,
+          borderColor: 'rgba(26, 190, 11, 0.5)',
+          borderWidth: 2,
+          // tension: 0.3,
+          pointBackgroundColor: '#ffffff',
+          order: 0, // layer line up top
           yAxisID: 'y1' //  change to just 'y' to view single y axis
         }
       ]
     },
     options: {
+      indexAxis: 'y',
       responsive: true,
       plugins: {
         legend: {
+          labels: {
+            color: '#f1f1f1',
+            font: {
+              size: 18,
+              weight: 'bold'
+            }
+          },
           display: true
         }
       },
       scales: {
+        x: {
+          beginsAtZero: true,
+          title: {
+            display: true,
+            text: 'Votes',
+            color: '#f1f1f1'
+          },
+          ticks: {
+            color: '#f1f1f1',
+            font: {
+              size: 16,
+              weight: 'bold'
+            }
+          }
+        },
         y: {  // bars
           beginAtZero: true,
           position: 'left',
           title: {
             display: true,
-            text: 'Votes'
+            text: 'Books',
+            color: '#f1f1f1'
           },
           ticks: {
             stepSize: 1,
-            precision: 0
+            precision: 0,
+            color: '#f1f1f1',
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
           }
         },
-        y1: {  //line; from here
-          beginAtZero: true,
-          position: 'right',
-          grid: {
-            drawOnChartArea: false
-          },
-          title: {
-            display: true,
-            text: 'Views'
-          },
-          ticks: {
-            stepSize: 1
-          }
-        } // to here
       }
     }
   });
@@ -451,17 +474,13 @@ DOM.resetButton.addEventListener('click', resetVoting);
 //==========================
 
 document.getElementById('next-review').addEventListener('click', () => {
-  if (currentOffset < books.length - 2) {
-  currentOffset++;
+  currentOffset = (currentOffset + 1) % books.length;
   updateCarousel();
-  }
 });
 
 document.getElementById('prev-review').addEventListener('click', () => {
-  if (currentOffset > 0) {
-  currentOffset--;
+  currentOffset = (currentOffset - 1 + books.length) % books.length;
   updateCarousel();
-  }
 });
 
 //=============================
@@ -503,8 +522,8 @@ renderVoting();
 
 // // timer
 setInterval(() => {
-  if (books.length > 2) {
-    currentOffset = (currentOffset + 1) % (books.length - 1);
+  if (books.length > visibleCards) {
+    currentOffset = (currentOffset + 1) % (books.length - visibleCards + 1);
     updateCarousel();
   }
 }, 6000);
