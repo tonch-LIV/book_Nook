@@ -146,9 +146,9 @@ function renderReviews() {
       </div>
     `;
 
-    card.addEventListener('click', () => {
-      card.classList.toggle('flipped');
-    });
+    // card.addEventListener('click', () => {
+    //   card.classList.toggle('flipped');
+    // });
 
     card.classList.remove('flipped');
 

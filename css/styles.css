@@ -195,18 +195,18 @@ legend {
   min-width: calc(100% / 3 - 20px); /* three visible */
 }
 
-.review-card.flipped {
+/* .review-card.flipped {
   transform: rotateY(180)
-}
+} */
 
 .card-front,
 .card-back {
-  position: absolute;
+  /* position: absolute; */
   inset: 0;
   padding: 12px;
   box-sizing: border-box;
   width: 100%;
-  backface-visibility: hidden;
+  /* backface-visibility: hidden; */
  
   display: flex;
   flex-direction: column;
@@ -222,7 +222,7 @@ legend {
 
 .card-back {
   z-index: 1;
-  transform: rotateY(180deg);
+  /* transform: rotateY(180deg); */
   cursor: pointer;
   pointer-events: auto;
 }
