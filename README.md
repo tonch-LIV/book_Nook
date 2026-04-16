@@ -182,6 +182,12 @@ As an avid reader, I'd like to keep track of what books I've read, so that I may
   - as well as js work done on carousel, chart, review buttons. (B)
   - added background images to use throughout site in areas like reviews, form, voting and chart. (B)
 
+### Refactor
+
+- ran lighthouse for semi-final draft, before refactor. (A)
+- ![lighthouse accessibility report, 93](img/lighthouse_04.15.png "score of 93, good, but can improve, hopefully through refactoring"). (A)
+
+
 ## If I Had More Time / For Future Consideration
 
 - would implement dynamic book cover generation for user entries (API, link resource log, etc.) rather than placeholder image.
